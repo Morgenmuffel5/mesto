@@ -11,17 +11,18 @@
 /*header*/
 @import url(../blocks/header/header.css);
 @import url(../blocks/header/__logo/header__logo.css);
-@import url();
-@import url();
-@import url();
-@import url();
-@import url();
-@import url();
-@import url();
-@import url();
-@import url();
-@import url();
-@import url();
+/*profile*/
+@import url(../blocks/profile/profile.css);
+@import url(../blocks/profile/__info/profile__info.css);
+@import url(../blocks/profile/__photo/profile__photo.css);
+@import url(../blocks/profile/__text/profile__text.css);
+@import url(../blocks/profile/__name/profile__name.css);
+@import url(../blocks/profile/__specialization/profile__specialization.css);
+@import url(../blocks/profile/__add-button/profile__add-button.css);
+@import url(../blocks/profile/__name-cont/profile__name-cont.css);
+@import url(../blocks/profile/__change-button/profile__change-button.css);
+@import url(../blocks/profile/__button-icon/profile__button-icon.css);
+@import url(../blocks/profile/__add-button-icon/profile__add-button-icon.css);
 @import url();
 @import url();
 @import url();
