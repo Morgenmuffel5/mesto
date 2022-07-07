@@ -23,13 +23,14 @@
 @import url(../blocks/profile/__change-button/profile__change-button.css);
 @import url(../blocks/profile/__button-icon/profile__button-icon.css);
 @import url(../blocks/profile/__add-button-icon/profile__add-button-icon.css);
-@import url();
-@import url();
-@import url();
-@import url();
-@import url();
-@import url();
-@import url();
+/*cards*/
+@import url(../blocks/cards/cards.css);
+@import url(../blocks/cards/__img/cards__img.css);
+@import url(../blocks/cards/__info/cards__info.css);
+@import url(../blocks/cards/__item/cards__item.css);
+@import url(../blocks/cards/__like-button/cards__like-button.css);
+@import url(../blocks/cards/__list/cards__list.css);
+@import url(../blocks/cards/__title/cards__title.css);
 @import url();
 @import url();
 @import url();
