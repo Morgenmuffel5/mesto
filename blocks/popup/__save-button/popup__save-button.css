@@ -1,0 +1,14 @@
+.popup__save-button {
+    width: calc(100% - 36px*2);
+    margin: 0 auto 37px auto;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup__save-button:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
