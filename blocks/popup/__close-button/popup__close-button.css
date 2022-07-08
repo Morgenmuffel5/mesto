@@ -8,10 +8,20 @@
     position: absolute;
     top: -40px;
     right: -40px;
+    background-size: contain;
 
 }
 
 .popup__close-button:hover {
     opacity: 0.6;
     cursor: pointer;
+}
+
+@media all and (max-width: 600px) {
+    .popup__close-button  {
+        width: 20px;
+        height: 20px;
+        top: -36px;
+        right: 0px;
+    }
 }
