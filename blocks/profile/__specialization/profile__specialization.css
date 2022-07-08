@@ -4,6 +4,7 @@
     font-weight: 400;
     line-height: 1;
     box-sizing: border-box;
+    max-width: 310px;
 }
 
 @media all and (max-width: 1024px) {
@@ -16,5 +17,6 @@
     .profile__specialization {
        text-align: center;
        font-size: 14px;
+       max-width: 199px;
     }
 }

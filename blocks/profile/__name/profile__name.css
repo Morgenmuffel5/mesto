@@ -5,6 +5,8 @@
     margin: 0;
     box-sizing: border-box;
     padding: 0 18px 16px 0;
+    max-width: 310px;
+    text-align: center;
 }
 
 @media all and (max-width: 1024px) {
@@ -17,5 +19,6 @@
         font-size: 27px;
         line-height: 1.22;
         padding: 0 10px 14px 0;
+        max-width: 199px;
     }
 }
