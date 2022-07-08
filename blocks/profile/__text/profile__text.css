@@ -1,3 +1,10 @@
 .profile__text {
     min-height: 73px;
 }
+
+@media all and (max-width: 520px) {
+    .profile__text {
+        max-width: 282px;
+        padding-bottom: 36px;
+    }
+}

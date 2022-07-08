@@ -5,5 +5,12 @@
     align-items: center;
     padding-bottom: 50px;
     box-sizing: border-box;
-    margin-top: 159px;
+}
+
+@media all and (max-width: 520px) {
+    .profile {
+        display: block;
+        margin: auto;
+        max-width: 282px;
+    }
 }

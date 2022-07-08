@@ -5,3 +5,10 @@
     color: rgba(84, 84, 84, 1);
     margin: 0;
 }
+
+@media all and (max-width: 520px) {
+    .footer__text{
+        font-size: 14px;
+        line-height: 1.22;
+    }
+}

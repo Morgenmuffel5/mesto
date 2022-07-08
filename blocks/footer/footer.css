@@ -2,3 +2,11 @@
     padding-bottom: 60px;
     box-sizing: border-box;
 }
+
+@media all and (max-width: 520px) {
+    .footer{
+        max-width: calc(100% - 19px*2);
+        margin: auto;
+        padding-bottom: 36px;
+    }
+}

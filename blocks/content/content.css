@@ -6,3 +6,27 @@
     box-sizing: border-box;
     color: rgba(255, 255, 255, 1);
 }
+
+@media all and (max-width: 1279px) {
+    .content {
+        max-width: calc(100% - 70px*2);
+    }
+}
+
+@media all and (max-width: 1023px) {
+    .content {
+        max-width: calc(100% - 50px*2);
+    }
+}
+
+@media all and (max-width: 600px) {
+    .content {
+        max-width: calc(100% - 10px*2);
+    }
+}
+
+@media all and (max-width: 520px) {
+    .content {
+       max-width: 100%;
+    }
+}
