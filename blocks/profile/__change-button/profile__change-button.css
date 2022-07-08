@@ -4,6 +4,10 @@
     padding: 0;
     border: none;
     background-color: transparent;
+    background-image: url(../../../images/profile__change-button.svg);
+    background-position: center;
+    border: 1px solid rgba(255, 255, 255, 1);
+    background-repeat: no-repeat;
 }
 
 .profile_change-button:hover {
