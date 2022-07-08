@@ -5,6 +5,11 @@
     font-family: 'Inter', 'Times New Roman', Times, serif;
     box-sizing: border-box;
     color: rgba(255, 255, 255, 1);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
 }
 
 @media all and (max-width: 1279px) {
