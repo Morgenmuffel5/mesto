@@ -4,6 +4,7 @@
     line-height: 1.22;
     color: rgba(84, 84, 84, 1);
     margin: 0;
+    box-sizing: border-box;
 }
 
 @media all and (max-width: 520px) {

@@ -1,5 +1,6 @@
 .profile__text {
     min-height: 73px;
+    box-sizing: border-box;
 }
 
 @media all and (max-width: 520px) {
