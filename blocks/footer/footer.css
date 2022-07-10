@@ -3,7 +3,7 @@
     box-sizing: border-box;
 }
 
-@media all and (max-width: 520px) {
+@media all and (max-width: 600px) {
     .footer{
         max-width: calc(100% - 19px*2);
         margin: auto;

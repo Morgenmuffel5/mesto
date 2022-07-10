@@ -3,9 +3,10 @@
     height: 120px;
     border-radius: 50%;
     box-sizing: border-box;
+    object-fit: cover;
 }
 
-@media all and (max-width: 520px) {
+@media all and (max-width: 600px) {
     .profile__photo {
         margin-bottom: 26px;
     }

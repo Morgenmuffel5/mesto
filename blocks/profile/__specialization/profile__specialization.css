@@ -13,7 +13,7 @@
 }
 }
 
-@media all and (max-width: 520px) {
+@media all and (max-width: 600px) {
     .profile__specialization {
        text-align: center;
        font-size: 14px;

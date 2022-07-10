@@ -1,0 +1,21 @@
+.popup__input-about {
+    display: block;
+    width: 100%;
+    padding: 13px 0 13px 0;
+    margin-bottom: 48px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.2;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: transparent;
+    outline: none;
+}
+
+
+@media all and (max-width: 600px) {
+    .popup__input-about  {
+        margin-bottom: 45px;
+    }
+}

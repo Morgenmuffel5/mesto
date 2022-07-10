@@ -2,19 +2,20 @@
     display: block;
     width: 142px;
     height: 74px;
-    background-image: url(../../../images/logo.png);
+    background-image: url(../../../images/logo.svg);
     padding-bottom: 41px;
     background-repeat: no-repeat;
     box-sizing: border-box;
+    background-size: contain;
     
 }
 
-@media all and (max-width: 520px) {
+@media all and (max-width: 600px) {
     .header__logo {
-        width: 104px;
-        height: 55px;
+        width: 103.74px;
+        height: 24.4px;
         margin-left: 24px;
-        padding-bottom: 31px;
+        padding-bottom: 56px;
     }
     
 }

@@ -11,19 +11,8 @@
 
 <body class="body">
     <div class="page">
-        <div class="content">
+        <div class="page__content">
 
-            <div class="popup">
-                <div class="popup__container">
-                    <form class="popup__form">
-                        <h2 class="popup__title">Редактировать профиль</h2>
-                        <input type="text" class="popup__input popup__input-name">
-                        <input type="text" class="popup__input popup__input-about">
-                        <button class="popup__save-button"><span class="popup__button-text">Сохранить</span></button>
-                    </form>
-                    <button class="popup__close-button"></button>
-                </div>
-            </div>
 
             <header class="header">
                 <a href="#" class="header__logo"></a>
@@ -31,16 +20,16 @@
             <main>
                 <section class="profile">
                     <div class="profile__info">
-                        <img src="./images/avatar.svg" alt="аватар пользователя" class="profile__photo">
+                        <img src="./images/avatar.jpg" alt="аватар пользователя" class="profile__photo">
                         <div class="profile__text">
                             <div class="profile__name-cont">
                                 <h1 class="profile__name">Жак-Ив Кусто</h1>
-                                <button class="profile__change-button"></button>
+                                <button class="profile__change-button" type="button"></button>
                             </div>
                             <p class="profile__specialization">Исследователь океана</p>
                         </div>
                     </div>
-                    <button class="profile__add-button"></button>
+                    <button class="profile__add-button" type="button"></button>
                 </section>
 
                 <section class="cards">
@@ -49,7 +38,7 @@
                             <img src="./images/Karachaevsk.jpg" alt="Древний храм" class="cards__img">
                             <div class="cards__info">
                                 <h2 class="cards__title">Карачаевск</h2>
-                                <button class="cards__like-button"></button>
+                                <button class="cards__like-button" type="button"></button>
                             </div>
                         </li>
 
@@ -57,7 +46,7 @@
                             <img src="./images/elbrus.jpg" alt="Эльбрус на закате" class="cards__img">
                             <div class="cards__info">
                                 <h2 class="cards__title">Гора Эльбрус</h2>
-                                <button class="cards__like-button"></button>
+                                <button class="cards__like-button" type="button"></button>
                             </div>
                         </li>
 
@@ -65,7 +54,7 @@
                             <img src="./images/dombai.jpg" alt="горы Домбая" class="cards__img">
                             <div class="cards__info">
                                 <h2 class="cards__title">Домбай</h2>
-                                <button class="cards__like-button"></button>
+                                <button class="cards__like-button" type="button"></button>
                             </div>
                         </li>
 
@@ -73,7 +62,7 @@
                             <img src="./images/Altai.jpg" alt="горы Алтая" class="cards__img">
                             <div class="cards__info">
                                 <h2 class="cards__title">Алтай</h2>
-                                <button class="cards__like-button"></button>
+                                <button class="cards__like-button" type="button"></button>
                             </div>
                         </li>
 
@@ -81,7 +70,7 @@
                             <img src="./images/kamchatka.jpg" alt="Вулканы Камчатки" class="cards__img">
                             <div class="cards__info">
                                 <h2 class="cards__title">Камчатка</h2>
-                                <button class="cards__like-button"></button>
+                                <button class="cards__like-button" type="button"></button>
                             </div>
                         </li>
 
@@ -89,7 +78,7 @@
                             <img src="./images/st-peterb.jpg" alt="Исаакиевский собор" class="cards__img">
                             <div class="cards__info">
                                 <h2 class="cards__title">Санкт-Петербург</h2>
-                                <button class="cards__like-button"></button>
+                                <button class="cards__like-button" type="button"></button>
                             </div>
                         </li>
                     </ul>
@@ -98,6 +87,18 @@
             <footer class="footer">
                 <p class="footer__text">&copy; 2022 Mesto Russia</p>
             </footer>
+
+            <div class="popup">
+                <div class="popup__container">
+                    <form class="popup__form" name="popup изменения профиля">
+                        <h2 class="popup__title">Редактировать профиль</h2>
+                        <input type="text" class="popup__input-name" name="Имя">
+                        <input type="text" class="popup__input-about" name="О себе">
+                        <button class="popup__save-button" type="submit">Сохранить</button>
+                    </form>
+                    <button class="popup__close-button" type="reset"></button>
+                </div>
+            </div>
 
         </div>
     </div>
