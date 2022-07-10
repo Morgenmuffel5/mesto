@@ -1,22 +1,23 @@
-//открытие popup
+//открытие popup и заполнение полей данными, указанными в профайле
 let profileChangeButton = document.querySelector('.profile_change-button');
 
 function popupOpen() {
     let popup = document.querySelector('.popup');
-   return popup.classList.add('popup_opened');
+    let popupInputName = document.querySelector('.popup__input-name');//поле ввода имени в форме
+    let profileName = document.querySelector('.profile__name'); // поле имени в секции profile
+    let popupInputAbout = document.querySelector('.popup__input-about'); //поле ввода инфо о себе в форме
+    let profileAbout = document.querySelector('.profile__specialization');// поле инфо о себе в секции profile
+
+    popupInputName.value = profileName.textContent; // присваиваем value полю формы, равное значению имени пользователя
+    popupInputAbout.value = profileAbout.textContent;// присваиваем value полю формы, равное значению инфо о себе
+
+    return popup.classList.add('popup_opened');
 }
 
 profileChangeButton.addEventListener('click', popupOpen);
 
 
-// заполнение полей данными, указанными в профайле
-let popupInputName = document.querySelector('.popup__input-name');//поле ввода имени в форме
-let profileName = document.querySelector('.profile__name'); // поле имени в секции profile
-let popupInputAbout = document.querySelector('.popup__input-about'); //поле ввода инфо о себе в форме
-let profileAbout = document.querySelector('.profile__specialization');// поле инфо о себе в секции profile
 
-popupInputName.value = profileName.textContent; // присваиваем value полю формы, равное значению имени пользователя
-popupInputAbout.value = profileAbout.textContent;// присваиваем value полю формы, равное значению инфо о себе
 
 
 //Закрытие попапа
@@ -34,6 +35,10 @@ function closePopupAndSaveData () { //функция сохранения и з�
     
     function formSubmitHandler (evt) { //функция сохранения измененных значений value
         evt.preventDefault(); 
+        let popupInputName = document.querySelector('.popup__input-name');//поле ввода имени в форме
+    let profileName = document.querySelector('.profile__name'); // поле имени в секции profile
+    let popupInputAbout = document.querySelector('.popup__input-about'); //поле ввода инфо о себе в форме
+    let profileAbout = document.querySelector('.profile__specialization');// поле инфо о себе в секции profile
         profileName.textContent = popupInputName.value;
         profileAbout.textContent = popupInputAbout.value;
     }
@@ -45,3 +50,7 @@ function closePopupAndSaveData () { //функция сохранения и з�
     //логика сохранения и закрытия
 popupSaveButton.addEventListener('click', closePopupAndSaveData);//при нажатии сохранить, реализуется функция сохранения данных и закрытия формы
 profileCloseButton.addEventListener('click', popupClose)// просто закрыть форму
+
+
+
+
