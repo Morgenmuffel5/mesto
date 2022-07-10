@@ -3,4 +3,15 @@
     font-size: 18px;
     font-weight: 400;
     line-height: 1.2;
+    display: block;
+    padding: 14px 0 18px 0;
+    box-sizing: border-box;
 }
+
+
+@media all and (max-width: 600px) {
+    .popap__button-text {
+        font-size: 14px;
+        padding: 14px 0 14px 0;
+    }
+ }
