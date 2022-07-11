@@ -19,12 +19,6 @@
     opacity: 0.6;
 }
 
-@media all and (max-width: 1279px) {
-    .profile__add-button {
-        min-width: 120px;
-}
-}
-
 
 @media all and (max-width: 600px) {
     .profile__add-button {
@@ -32,3 +26,4 @@
         background-size: 16px;
 }
 }
+/*замечание 3я иттерация - исправлено. удален медиазапрос с повторяющимся значеним*/
