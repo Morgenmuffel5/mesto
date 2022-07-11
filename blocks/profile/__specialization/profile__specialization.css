@@ -5,6 +5,9 @@
     line-height: 1;
     box-sizing: border-box;
     max-width: 310px;
+    text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 @media all and (max-width: 1024px) {

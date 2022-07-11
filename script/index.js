@@ -1,11 +1,10 @@
 //объявление переменных
 let profileChangeButton = document.querySelector('.profile__change-button');
 let popup = document.querySelector('.popup'); // секция popup
-let popupInputName = document.querySelector('.popup__input-name');//поле ввода имени в форме
+let popupInputName = document.querySelector('.popup__input_value_name');//поле ввода имени в форме
 let profileName = document.querySelector('.profile__name'); // поле имени в секции profile
-let popupInputAbout = document.querySelector('.popup__input-about'); //поле ввода инфо о себе в форме
+let popupInputAbout = document.querySelector('.popup__input_value_about'); //поле ввода инфо о себе в форме
 let profileAbout = document.querySelector('.profile__specialization');// поле инфо о себе в секции profile
-let popupSaveButton = document.querySelector('.popup__save-button');//кнопка сохранить
 let profileCloseButton = document.querySelector('.popup__close-button');//кнопка закрыть
 let popupForm = document.querySelector('.popup__form');//сама форма
 
@@ -29,7 +28,6 @@ function formSubmitHandler(evt) { //функция сохранения изме
     profileAbout.textContent = popupInputAbout.value;
     popupClose();//закрыть форму
 }
-popupForm.addEventListener('submit', formSubmitHandler); //сохранить данные
 
 
 

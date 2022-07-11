@@ -9,11 +9,9 @@
     <title>Сервис Mesto</title>
 </head>
 
-<body class="body">
-    <div class="page">
+<body class="page">
+  
         <div class="page__content">
-
-
             <header class="header">
                 <a href="#" class="header__logo"></a>
             </header>
@@ -90,18 +88,18 @@
 
             <div class="popup">
                 <div class="popup__container">
-                    <form class="popup__form" name="popup изменения профиля">
+                    <form class="popup__form" name="popup_profile_change">
                         <h2 class="popup__title">Редактировать профиль</h2>
-                        <input type="text" class="popup__input-name" name="Имя">
-                        <input type="text" class="popup__input-about" name="О себе">
+                        <input type="text" class="popup__input popup__input_value_name" name="Name">
+                        <input type="text" class="popup__input popup__input_value_about" name="About">
                         <button class="popup__save-button" type="submit">Сохранить</button>
                     </form>
-                    <button class="popup__close-button" type="reset"></button>
+                    <button class="popup__close-button" type="button"></button>
                 </div>
             </div>
 
         </div>
-    </div>
+    
     <script src="./script/index.js"></script> 
 </body>
 

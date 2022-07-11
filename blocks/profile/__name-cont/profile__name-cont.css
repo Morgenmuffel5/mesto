@@ -1,4 +1,5 @@
 .profile__name-cont {
     display: flex;
     align-items: baseline;
+    position: relative;
 }
