@@ -32,6 +32,7 @@
 
                 <section class="cards">
                     <ul class="cards__list">
+                        <!--
                         <li class="cards__item">
                             <img src="./images/Karachaevsk.jpg" alt="Древний храм" class="cards__img">
                             <button class="card__delete-button"></button>
@@ -85,6 +86,7 @@
                                 <button class="cards__like-button" type="button"></button>
                             </div>
                         </li>
+                        -->
                     </ul>
                 </section>
             </main>
@@ -92,20 +94,41 @@
                 <p class="footer__text">&copy; 2022 Mesto Russia</p>
             </footer>
 
-            <div class="popup">
+            <div class="popup popup_open_edit-profile">
                 <div class="popup__container">
-                    <form class="popup__form" name="popup_profile_change">
+                    <form class="popup__form popup__form_change_profile" name="popup_profile_change">
                         <h2 class="popup__title">Редактировать профиль</h2>
                         <input type="text" class="popup__input popup__input_value_name" name="Name">
                         <input type="text" class="popup__input popup__input_value_about" name="About">
                         <button class="popup__save-button" type="submit">Сохранить</button>
                     </form>
-                    <button class="popup__close-button" type="button"></button>
+                    <button class="popup__close-button popup__close-button_close_profile-change" type="button"></button>
+                </div>
+            </div>
+
+            <div class="popup popup_open_add-card">
+                <div class="popup__container">
+                    <form class="popup__form popup__form_change_add-card" name="popup_add_card">
+                        <h2 class="popup__title">Новое место</h2>
+                        <input type="text" class="popup__input popup__input_value_place-name" name="place-name" placeholder="Название">
+                        <input type="text" class="popup__input popup__input_value_img" name="link-for-picture" placeholder="Ссылка на картинку">
+                        <button class="popup__save-button" type="submit">Сохранить</button>
+                    </form>
+                    <button class="popup__close-button popup__close-button_close_add-card" type="button"></button>
                 </div>
             </div>
 
         </div>
-    
+    <template id="tamlate-card">
+        <li class="cards__item">
+            <img class="cards__img">
+            <button class="card__delete-button"></button>
+            <div class="cards__info">
+                <h2 class="cards__title"></h2>
+                <button class="cards__like-button" type="button"></button>
+            </div>
+        </li>
+    </template>
     <script src="./script/index.js"></script> 
 </body>
 
