@@ -1,21 +1,36 @@
 //объявление переменных
+//переменные popup изменения профиля
 const profileChangeButton = document.querySelector('.profile__change-button');
 const popupEditProfile = document.querySelector('.popup_open_edit-profile'); // секция popup
 const popupInputName = document.querySelector('.popup__input_value_name');//поле ввода имени в форме
-let profileName = document.querySelector('.profile__name'); // поле имени в секции profile
+const profileName = document.querySelector('.profile__name'); // поле имени в секции profile
 const popupInputAbout = document.querySelector('.popup__input_value_about'); //поле ввода инфо о себе в форме
-let profileAbout = document.querySelector('.profile__specialization');// поле инфо о себе в секции profile
+const profileAbout = document.querySelector('.profile__specialization');// поле инфо о себе в секции profile
 const profileCloseButton = document.querySelector('.popup__close-button_close_profile-change');//кнопка закрыть
 const popupForm = document.querySelector('.popup__form_change_profile');//сама форма
 
+
+//переменные popup добавления карточки
 const addCardPopup = document.querySelector('.popup_open_add-card'); // секция попап добавления карточки
 const addCardButton = document.querySelector('.profile__add-button'); //кнопка добавления карточки
 const addCardButtonClose = document.querySelector('.popup__close-button_close_add-card') //кнопка закрытия попапа добавления карточек
 const addCardForm = document.querySelector('.popup__form_change_add-card')//форма попапа добавления карточек
 const cardsList = document.querySelector('.cards__list'); // список карточек
+const addCardTemplate = document.querySelector('#tamlate-card').content //заготовка карточки
+const addNewCardItem = addCardTemplate.querySelector('.cards__item').cloneNode(true);//клонируем заготовку
+/*const cardImg = addNewCardItem.querySelector('.cards__img')// картинка в карточке
+const cardTitle = addNewCardItem.querySelector('.cards__title');//заголовок карточки
+const likeButton = addNewCardItem.querySelector('.cards__like-button');//кнопка лайк
+const deleteCardButton = addNewCardItem.querySelector('.card__delete-button');//кнопка удаления карточки*/
+
+
+//переменные Popup открытия фото
 const imgPopup = document.querySelector('.popup_open_image');//попап открытия фото
 const popupImgCloseButton = document.querySelector('.popup__close-button_close_image');//кнопка закрытия попап
-
+const popupPhoto = document.querySelector('.popup__img'); //картинка в попапе
+const popupCaption = document.querySelector('.popup__caption');// подпись картинки в попапе
+const newCardName = document.querySelector('.popup__input_value_place-name');
+    const newCardLink = document.querySelector('.popup__input_value_img');
 
 
 //ФУНКЦИИ 
@@ -52,7 +67,7 @@ function addCardsFromArr () {
     initialCards.forEach(function (item){ //перебираем элементы и добавляем на страницу
         const cardName = item.name;
         const cardLink = item.link;
-        addCard (cardName, cardLink);
+        cardsList.prepend(createCard (cardName, cardLink));
     })
 }
 
@@ -102,48 +117,50 @@ function popupAddCardClose() {
 
 
 //функция добавления карточек, здесь же удаление и лайки
-function addCard (CardName, imgLink) {
+function createCard (CardName, imgLink) {
     const addCardTemplate = document.querySelector('#tamlate-card').content //заготовка карточки
-    const addNewCardItem = addCardTemplate.querySelector('.cards__item').cloneNode(true);//клонируем заготовку
-    
-    addNewCardItem.querySelector('.cards__img').setAttribute('src', imgLink);//задаем значение src
-    addNewCardItem.querySelector('.cards__img').setAttribute('alt', CardName);//задаем значение src
-    addNewCardItem.querySelector('.cards__title').textContent = CardName;//задае текст заголовка
+    const addNewCardItem = addCardTemplate.querySelector('.cards__item').cloneNode(true);//клонируем заготовку 
+    const cardImg = addNewCardItem.querySelector('.cards__img')// картинка в карточке
+    const cardTitle = addNewCardItem.querySelector('.cards__title');//заголовок карточки
+    const likeButton = addNewCardItem.querySelector('.cards__like-button');//кнопка лайк
+    const deleteCardButton = addNewCardItem.querySelector('.card__delete-button');//кнопка удаления карточки
+
+    cardImg.setAttribute('src', imgLink);//задаем значение src
+    cardImg.setAttribute('alt', CardName);//задаем значение src
+    cardTitle.textContent = CardName;//задае текст заголовка
 
 
-    addNewCardItem.querySelector('.cards__like-button').addEventListener('click', function (event) {
+    likeButton.addEventListener('click', function (event) {
         event.target.classList.toggle('cards__like-button_active'); //реализация лайка
     })
 
-    addNewCardItem.querySelector('.card__delete-button').addEventListener('click', function (event) {
+    deleteCardButton.addEventListener('click', function (event) {
         const eventTarget = event.target;
         const cardItem = eventTarget.closest('.cards__item');
         cardItem.remove(); //реализация удаления
     })
 
-    addNewCardItem.querySelector('.cards__img').addEventListener('click', function (event) {
+    cardImg.addEventListener('click', function (event) {
         const eventTarget = event.target;
-        document.querySelector('.popup__img').setAttribute('src',eventTarget.src);
-        document.querySelector('.popup__img').setAttribute('alt',eventTarget.alt);
-        document.querySelector('.popup__caption').textContent = addNewCardItem.querySelector('.cards__title').textContent;
-        document.querySelector('.popup_open_image').classList.add('popup_opened');
+        popupPhoto.setAttribute('src',eventTarget.src);
+        popupPhoto.setAttribute('alt',eventTarget.alt);
+        popupCaption.textContent = addNewCardItem.querySelector('.cards__title').textContent;
+        imgPopup.classList.add('popup_opened');
     }) //открытие попапа картинки
 
+    return addNewCardItem;
 
-    cardsList.prepend(addNewCardItem);
 }
+
+
 
 
 //сохранение данных на страницу
 function formSubmitHandlerCards(evt) { 
     evt.preventDefault();
-    const newCardName = document.querySelector('.popup__input_value_place-name');
-    const newCardLink = document.querySelector('.popup__input_value_img');
-
-    addCard (newCardName.value, newCardLink.value);
-    newCardName.value = '';
-    newCardLink.value = '';
-
+    
+    cardsList.prepend(createCard (newCardName.value, newCardLink.value));
+    evt.target.reset()
     popupAddCardClose();
 }
 
