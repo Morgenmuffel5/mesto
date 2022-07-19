@@ -20,44 +20,6 @@ const popupImgCloseButton = document.querySelector('.popup__close-button_close_i
 
 //ФУНКЦИИ 
 
-//функции для popup изменения профиля
-//открытие popup и заполнение полей данными, указанными в профайле
-function popupProfileOpen() {
-    popupInputName.value = profileName.textContent; // присваиваем value полю формы, равное значению имени пользователя
-    popupInputAbout.value = profileAbout.textContent;// присваиваем value полю формы, равное значению инфо о себе
-    popupEditProfile.classList.add('popup_opened');
-}
-
-
-//Закрытие попапа
-function popupProfileClose() { //функция простого закрытия
-    popupEditProfile.classList.remove('popup_opened');//удаление класса открытия попапа
-}
-
-function formSubmitHandler(evt) { //функция сохранения измененных значений value
-    evt.preventDefault();
-    profileName.textContent = popupInputName.value;
-    profileAbout.textContent = popupInputAbout.value;
-    popupProfileClose();//закрыть форму
-}
-
-
-
-
-
-//функции для попап добавления карточек
-//Открытие popup  добавления карточек
-function popupAddCardOpen() {
-    addCardPopup.classList.add('popup_opened');
-}
-
-//простое закрытие popup добавления карточек
-function popupAddCardClose() {
-    addCardPopup.classList.remove('popup_opened');
-    
-}
-
-
 //функция добавления массива на страницу
 function addCardsFromArr () {
     const initialCards = [ //Массив с карточками
@@ -97,12 +59,55 @@ function addCardsFromArr () {
 addCardsFromArr (); //вывод массива на страницу
 
 
+
+//функции для popup изменения профиля
+//открытие popup и заполнение полей данными, указанными в профайле
+function popupProfileOpen() {
+    popupInputName.value = profileName.textContent; // присваиваем value полю формы, равное значению имени пользователя
+    popupInputAbout.value = profileAbout.textContent;// присваиваем value полю формы, равное значению инфо о себе
+    popupEditProfile.classList.add('popup_opened');
+}
+
+
+//Закрытие попапа
+function popupProfileClose() { //функция простого закрытия
+    popupEditProfile.classList.remove('popup_opened');//удаление класса открытия попапа
+}
+
+function formSubmitHandler(evt) { //функция сохранения измененных значений value
+    evt.preventDefault();
+    profileName.textContent = popupInputName.value;
+    profileAbout.textContent = popupInputAbout.value;
+    popupProfileClose();//закрыть форму
+}
+
+
+
+
+
+//функции для попап добавления карточек
+//Открытие popup  добавления карточек
+function popupAddCardOpen() {
+    addCardPopup.classList.add('popup_opened');
+}
+
+//простое закрытие popup добавления карточек
+function popupAddCardClose() {
+    addCardPopup.classList.remove('popup_opened');
+    
+}
+
+
+
+
+
 //функция добавления карточек, здесь же удаление и лайки
 function addCard (CardName, imgLink) {
     const addCardTemplate = document.querySelector('#tamlate-card').content //заготовка карточки
     const addNewCardItem = addCardTemplate.querySelector('.cards__item').cloneNode(true);//клонируем заготовку
     
     addNewCardItem.querySelector('.cards__img').setAttribute('src', imgLink);//задаем значение src
+    addNewCardItem.querySelector('.cards__img').setAttribute('alt', CardName);//задаем значение src
     addNewCardItem.querySelector('.cards__title').textContent = CardName;//задае текст заголовка
 
 
@@ -119,6 +124,7 @@ function addCard (CardName, imgLink) {
     addNewCardItem.querySelector('.cards__img').addEventListener('click', function (event) {
         const eventTarget = event.target;
         document.querySelector('.popup__img').setAttribute('src',eventTarget.src);
+        document.querySelector('.popup__img').setAttribute('alt',eventTarget.alt);
         document.querySelector('.popup__caption').textContent = addNewCardItem.querySelector('.cards__title').textContent;
         document.querySelector('.popup_open_image').classList.add('popup_opened');
     }) //открытие попапа картинки
@@ -162,4 +168,6 @@ profileCloseButton.addEventListener('click', popupProfileClose)// просто �
 addCardButton.addEventListener('click', popupAddCardOpen);//открытие попапа добвления картинки
 addCardButtonClose.addEventListener('click', popupAddCardClose);//простое закрытие попапа добавления карточек
 addCardForm.addEventListener('submit', formSubmitHandlerCards)//сохранение и закрытие
+
 popupImgCloseButton.addEventListener('click', popupImgClose);//закрытие попапа картинки
+ 
