@@ -5,8 +5,11 @@
     height: 100%;
     top: 0;
     right: 0;
-    display: none;
+    display: flex;
     z-index: 2;
     align-items: center;
    justify-content: center;
+   opacity: 0;
+   visibility: hidden;
+   transition: visibility 0s, opacity 0.5s linear;
 }
