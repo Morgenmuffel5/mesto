@@ -13,6 +13,9 @@ const addCardButton = document.querySelector('.profile__add-button'); //кноп
 const addCardButtonClose = document.querySelector('.popup__close-button_close_add-card') //кнопка закрытия попапа добавления карточек
 const addCardForm = document.querySelector('.popup__form_change_add-card')//форма попапа добавления карточек
 const cardsList = document.querySelector('.cards__list'); // список карточек
+const imgPopup = document.querySelector('.popup_open_image');//попап открытия фото
+const popupImgCloseButton = document.querySelector('.popup__close-button_close_image');//кнопка закрытия попап
+
 
 
 //ФУНКЦИИ 
@@ -94,7 +97,6 @@ function addCardsFromArr () {
 addCardsFromArr (); //вывод массива на страницу
 
 
-
 //функция добавления карточек, здесь же удаление и лайки
 function addCard (CardName, imgLink) {
     const addCardTemplate = document.querySelector('#tamlate-card').content //заготовка карточки
@@ -102,6 +104,7 @@ function addCard (CardName, imgLink) {
     
     addNewCardItem.querySelector('.cards__img').setAttribute('src', imgLink);//задаем значение src
     addNewCardItem.querySelector('.cards__title').textContent = CardName;//задае текст заголовка
+
 
     addNewCardItem.querySelector('.cards__like-button').addEventListener('click', function (event) {
         event.target.classList.toggle('cards__like-button_active'); //реализация лайка
@@ -112,6 +115,14 @@ function addCard (CardName, imgLink) {
         const cardItem = eventTarget.closest('.cards__item');
         cardItem.remove(); //реализация удаления
     })
+
+    addNewCardItem.querySelector('.cards__img').addEventListener('click', function (event) {
+        const eventTarget = event.target;
+        document.querySelector('.popup__img').setAttribute('src',eventTarget.src);
+        document.querySelector('.popup__caption').textContent = addNewCardItem.querySelector('.cards__title').textContent;
+        document.querySelector('.popup_open_image').classList.add('popup_opened');
+    }) //открытие попапа картинки
+
 
     cardsList.prepend(addNewCardItem);
 }
@@ -131,6 +142,17 @@ function formSubmitHandlerCards(evt) {
 }
 
 
+
+//функции для попапа открытия картинки
+
+    //закрытие попапа картинки
+function popupImgClose () {
+    imgPopup.classList.remove('popup_opened');
+}
+
+
+
+
     //СОБЫТИЯ
 profileChangeButton.addEventListener('click', popupProfileOpen); //открытие попапа редактирования профиля
 popupForm.addEventListener('submit', formSubmitHandler); //сохранить данные редактирования профиля
@@ -140,3 +162,4 @@ profileCloseButton.addEventListener('click', popupProfileClose)// просто �
 addCardButton.addEventListener('click', popupAddCardOpen);//открытие попапа добвления картинки
 addCardButtonClose.addEventListener('click', popupAddCardClose);//простое закрытие попапа добавления карточек
 addCardForm.addEventListener('submit', formSubmitHandlerCards)//сохранение и закрытие
+popupImgCloseButton.addEventListener('click', popupImgClose);//закрытие попапа картинки
