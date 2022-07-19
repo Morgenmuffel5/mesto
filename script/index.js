@@ -13,7 +13,7 @@ const addCardButton = document.querySelector('.profile__add-button'); //кноп
 const addCardButtonClose = document.querySelector('.popup__close-button_close_add-card') //кнопка закрытия попапа добавления карточек
 const addCardForm = document.querySelector('.popup__form_change_add-card')//форма попапа добавления карточек
 const cardsList = document.querySelector('.cards__list'); // список карточек
-const cardDeleteButton = document.querySelectorAll('.card__delete-button');//кнопка удаления карточки
+
 
 //ФУНКЦИИ
 
@@ -93,15 +93,29 @@ function addCardsFromArr () {
 
 addCardsFromArr (); //вывод массива на страницу
 
-//функция добавления карточек
+
+
+//функция добавления карточек, здесь же удаление и лайки
 function addCard (CardName, imgLink) {
     const addCardTemplate = document.querySelector('#tamlate-card').content //заготовка карточки
     const addNewCardItem = addCardTemplate.querySelector('.cards__item').cloneNode(true);//клонируем заготовку
-    addNewCardItem.querySelector('.cards__img').setAttribute('src', imgLink);
-    addNewCardItem.querySelector('.cards__title').textContent = CardName;
+    
+    addNewCardItem.querySelector('.cards__img').setAttribute('src', imgLink);//задаем значение src
+    addNewCardItem.querySelector('.cards__title').textContent = CardName;//задае текст заголовка
+
+    addNewCardItem.querySelector('.cards__like-button').addEventListener('click', function (event) {
+        event.target.classList.toggle('cards__like-button_active'); //реализация лайка
+    })
+
+    addNewCardItem.querySelector('.card__delete-button').addEventListener('click', function (event) {
+        const eventTarget = event.target;
+        const cardItem = eventTarget.closest('.cards__item');
+        cardItem.remove(); //реализация удаления
+    })
 
     cardsList.prepend(addNewCardItem);
 }
+
 
 //сохранение данных на страницу
 function formSubmitHandlerCards(evt) { 
@@ -116,13 +130,6 @@ function formSubmitHandlerCards(evt) {
     popupAddCardClose();
 }
 
-//удаление карточек
-function deleteCard (evt) {
-    const eventTarget = evt.target;
-    const cardItem = eventTarget.closest('.cards__item');
-    cardItem.remove();
-}
-
 
     //СОБЫТИЯ
 profileChangeButton.addEventListener('click', popupProfileOpen); //открытие попапа редактирования профиля
@@ -133,6 +140,3 @@ profileCloseButton.addEventListener('click', popupProfileClose)// просто �
 addCardButton.addEventListener('click', popupAddCardOpen);//открытие попапа добвления картинки
 addCardButtonClose.addEventListener('click', popupAddCardClose);//простое закрытие попапа добавления карточек
 addCardForm.addEventListener('submit', formSubmitHandlerCards)//сохранение и закрытие
-cardDeleteButton.addEventListener('click', deleteCard); //удаление карточки
-
-
