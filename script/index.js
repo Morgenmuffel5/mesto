@@ -12,10 +12,8 @@ const addCardPopup = document.querySelector('.popup_open_add-card'); // секц
 const addCardButton = document.querySelector('.profile__add-button'); //кнопка добавления карточки
 const addCardButtonClose = document.querySelector('.popup__close-button_close_add-card') //кнопка закрытия попапа добавления карточек
 const addCardForm = document.querySelector('.popup__form_change_add-card')//форма попапа добавления карточек
-
 const cardsList = document.querySelector('.cards__list'); // список карточек
-
-
+const cardDeleteButton = document.querySelectorAll('.card__delete-button');//кнопка удаления карточки
 
 //ФУНКЦИИ
 
@@ -86,7 +84,7 @@ function addCardsFromArr () {
   }
 ];  
 
-    initialCards.forEach(function (item){
+    initialCards.forEach(function (item){ //перебираем элементы и добавляем на страницу
         const cardName = item.name;
         const cardLink = item.link;
         addCard (cardName, cardLink);
@@ -112,7 +110,17 @@ function formSubmitHandlerCards(evt) {
     const newCardLink = document.querySelector('.popup__input_value_img');
 
     addCard (newCardName.value, newCardLink.value);
-    popupAddCardClose()
+    newCardName.value = '';
+    newCardLink.value = '';
+
+    popupAddCardClose();
+}
+
+//удаление карточек
+function deleteCard (evt) {
+    const eventTarget = evt.target;
+    const cardItem = eventTarget.closest('.cards__item');
+    cardItem.remove();
 }
 
 
@@ -125,5 +133,6 @@ profileCloseButton.addEventListener('click', popupProfileClose)// просто �
 addCardButton.addEventListener('click', popupAddCardOpen);//открытие попапа добвления картинки
 addCardButtonClose.addEventListener('click', popupAddCardClose);//простое закрытие попапа добавления карточек
 addCardForm.addEventListener('submit', formSubmitHandlerCards)//сохранение и закрытие
+cardDeleteButton.addEventListener('click', deleteCard); //удаление карточки
 
 
