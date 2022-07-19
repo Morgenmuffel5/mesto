@@ -15,7 +15,7 @@ const addCardForm = document.querySelector('.popup__form_change_add-card')//фо
 const cardsList = document.querySelector('.cards__list'); // список карточек
 
 
-//ФУНКЦИИ
+//ФУНКЦИИ 
 
 //функции для popup изменения профиля
 //открытие popup и заполнение полей данными, указанными в профайле
