@@ -44,7 +44,9 @@
                     <form class="popup__form popup__form_change_profile" name="popup_profile_change">
                         <h2 class="popup__title">Редактировать профиль</h2>
 
-                        <input 
+                        <fieldset class="popup__fieldset">
+                        <input
+                        id="popup__input-name"
                         type="text"
                         class="popup__input popup__input_value_name"
                         name="Name"
@@ -53,13 +55,23 @@
                         maxlength="40"
                         novalidate>
 
-                        <input type="text"
+                        <span class="popup__error popup__error_active popup__input-name-error"></span>
+                    </fieldset>
+
+                    <fieldset class="popup__fieldset"> 
+                    <input
+                        id="popup__input-about"
+                        type="text"
                         class="popup__input popup__input_value_about"
                         name="About"
                         required
                         minlength="2"
                         maxlength="200"
                         novalidate>
+                        
+                        <span class="popup__error popup__error_active popup__input-about-error"></span>
+                    </fieldset>
+
 
                         <button class="popup__save-button" type="submit">Сохранить</button>
                     </form>
@@ -101,6 +113,7 @@
         </li>
     </template>
     <script src="./script/index.js"></script> 
+    <script src="./script/validate.js"></script>
 </body>
 
 </html>
