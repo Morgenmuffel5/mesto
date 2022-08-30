@@ -83,8 +83,35 @@
                 <div class="popup__container">
                     <form class="popup__form popup__form_change_add-card" name="popup_add_card">
                         <h2 class="popup__title">Новое место</h2>
-                        <input type="text" class="popup__input popup__input_value_place-name" name="place-name" placeholder="Название">
-                        <input type="text" class="popup__input popup__input_value_img" name="link-for-picture" placeholder="Ссылка на картинку">
+
+                        <fieldset class="popup__fieldset">
+                        <input
+                        id="popup__input-title"
+                        type="text"
+                        class="popup__input popup__input_value_place-name"
+                        name="place-name"
+                        placeholder="Название"
+                        minlength="2"
+                        maxlength="30"
+                        required
+                        novalidate>
+
+                        <span class="popup__error popup__error_active popup__input-title-error"></span>
+                    </fieldset>
+
+                        <fieldset class="popup__fieldset">
+                        <input
+                        id="popup__input-url"
+                        type="url"
+                        class="popup__input popup__input_value_img"
+                        name="link-for-picture"
+                        placeholder="Ссылка на картинку"
+                        required
+                        novalidate>
+
+                        <span class="popup__error popup__error_active popup__input-url-error"></span>
+                    </fieldset>
+
                         <button class="popup__save-button" type="submit">Сохранить</button>
                     </form>
                     <button class="popup__close-button popup__close-button_close_add-card" type="button"></button>
