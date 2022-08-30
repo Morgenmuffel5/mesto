@@ -142,7 +142,6 @@ function createCard (CardName, imgLink) {
         popupPhoto.setAttribute('src',eventTarget.src);
         popupPhoto.setAttribute('alt',eventTarget.alt);
         popupCaption.textContent = addNewCardItem.querySelector('.cards__title').textContent;
-        /*imgPopup.classList.add('popup_opened');*/
         openPopup(imgPopup);
     }) //открытие попапа картинки
 
