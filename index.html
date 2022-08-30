@@ -43,8 +43,24 @@
                 <div class="popup__container">
                     <form class="popup__form popup__form_change_profile" name="popup_profile_change">
                         <h2 class="popup__title">Редактировать профиль</h2>
-                        <input type="text" class="popup__input popup__input_value_name" name="Name">
-                        <input type="text" class="popup__input popup__input_value_about" name="About">
+
+                        <input 
+                        type="text"
+                        class="popup__input popup__input_value_name"
+                        name="Name"
+                        required
+                        minlength="2"
+                        maxlength="40"
+                        novalidate>
+
+                        <input type="text"
+                        class="popup__input popup__input_value_about"
+                        name="About"
+                        required
+                        minlength="2"
+                        maxlength="200"
+                        novalidate>
+
                         <button class="popup__save-button" type="submit">Сохранить</button>
                     </form>
                     <button class="popup__close-button popup__close-button_close_profile-change" type="button"></button>
