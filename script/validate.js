@@ -24,13 +24,38 @@ const isValidForm = (form, formInputElement) => {
     }
 }
 
+
+//функция проверки на валидность всех полей
+const hasInvalidInput = (inputList) => {
+    return inputList.some((formInputElement) => {
+        return !formInputElement.validity.valid
+    })
+}
+
+
+//функция изменения состояния кнопки
+const toggleSubmitButtonState = (inputList, submitButton) => {
+    if (hasInvalidInput(inputList)) {
+        submitButton.setAttribute('disabled', true);
+        submitButton.classList.add('popup__save-button_disabled')
+    } else {
+        submitButton.removeAttribute('disabled');
+        submitButton.classList.remove('popup__save-button_disabled')
+    }
+}
+
+
 //функция, добавляющая обработчики всем полям формы
 const setEventListenerForAllInput = (form) => {
     const inputList = Array.from(form.querySelectorAll('.popup__input')); //создаем массив из всех элементов input в форме
+    const submitFormButton = form.querySelector('.popup__save-button');//кнопка сохранения
+
+    toggleSubmitButtonState(inputList, submitFormButton);//вызываем неактивное состояние, чтобы кнопка была еактивна при открытии
 
     inputList.forEach((formInputElement) => {
         formInputElement.addEventListener('input', () => {
-            isValidForm(form, formInputElement)
+            isValidForm(form, formInputElement);
+            toggleSubmitButtonState(inputList, submitFormButton);
         })
     })
 }
@@ -49,3 +74,5 @@ const isValidAllForms = () => {
 }
 
 isValidAllForms(); //вызываем функцию валидации для всех форм
+
+
