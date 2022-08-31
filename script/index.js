@@ -70,16 +70,36 @@ function addCardsFromArr () {
 
 addCardsFromArr (); //вывод массива на страницу
 
+//функция добавления обработчика закрытия по esc
+const closePopupByEsc = (popup) => {
+    popup.addEventListener('keydown', (evt) => {
+        if (evt.key === 27) {
+            closePopup(popup);
+        }
+    })
+}
+
+//функция удаления обработчика закрытия по Esc
+const removeClosePopupByEsc = (popup) => {
+    popup.removeEventListener('keydown', (evt) => {
+        if (evt.key === 27) {
+            closePopup(popup);
+        }
+    })
+}
+
 
 //Общая функция открытия попапов
-function openPopup(popupClass) {
-    popupClass.classList.add('popup_opened');
+function openPopup(popup) {
+    closePopupByEsc(popup);
+    popup.classList.add('popup_opened');
 }
 
 
 //Общая функция простого закрытия попапов
 function closePopup (popup) {
     popup.classList.remove('popup_opened');
+    removeClosePopupByEsc(popup);
 }
 
 //вешаем обработчики на все кнопки закрытия 
@@ -177,4 +197,21 @@ profileChangeButton.addEventListener('click', addValueToInputProfile); //отк�
 popupForm.addEventListener('submit', submitFormPopupProfile); //сохранить данные редактирования профиля
 
 addCardForm.addEventListener('submit', submitFormPopupAddCard)//сохранение новой карточки
+
+
+//функция закрытия по overlay
+const closePopupByOverlay = () => {
+    const popupList = Array.from(document.querySelectorAll('.popup')); //массив всех popup
+
+    popupList.forEach((popup) => {
+        popup.addEventListener('click', (evt) => {
+            if (evt.target == evt.currentTarget) {
+                closePopup(evt.currentTarget);
+            }
+        })
+    })
+}
+closePopupByOverlay();
+
+
 

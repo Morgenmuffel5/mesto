@@ -1,26 +1,37 @@
+//объект совсеми нужными классами
+const validationConfig = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    /*inputErrorClass: 'popup__input_type_error',*/
+    errorClass: 'popup__error_active'
+}
+
+
 //функция показа ошибки
-const showInputError = (form, formInputElement, errorMessage) => {
+const showInputError = (form, formInputElement, errorMessage, config) => {
     const errorElement = form.querySelector(`.${formInputElement.id}-error`); //находим span с ошибки
 
     errorElement.textContent = errorMessage; //задаем текст ошибки
-    errorElement.classList.add('popup__error_active'); //добавляем span класс, который сделает ошибку видимой
+    errorElement.classList.add(config.errorClass); //добавляем span класс, который сделает ошибку видимой
 
 }
 
 //функция, скрывающая ошибку
-const hideInputError = (form, formInputElement) => {
+const hideInputError = (form, formInputElement, config) => {
     const errorElement = form.querySelector(`.${formInputElement.id}-error`);
 
-    errorElement.classList.remove('popup__error_active'); //убираем span класс, который сделает ошибку видимой
+    errorElement.classList.remove(config.errorClass); //убираем span класс, который сделает ошибку видимой
 }
 
 
 //функция, проверяющая валидность
 const isValidForm = (form, formInputElement) => {
     if (!formInputElement.validity.valid) {
-        showInputError(form, formInputElement, formInputElement.validationMessage)
+        showInputError(form, formInputElement, formInputElement.validationMessage, validationConfig);
     } else {
-        hideInputError(form, formInputElement);
+        hideInputError(form, formInputElement, validationConfig);
     }
 }
 
@@ -34,45 +45,43 @@ const hasInvalidInput = (inputList) => {
 
 
 //функция изменения состояния кнопки
-const toggleSubmitButtonState = (inputList, submitButton) => {
+const toggleSubmitButtonState = (inputList, submitButton, config) => {
     if (hasInvalidInput(inputList)) {
         submitButton.setAttribute('disabled', true);
-        submitButton.classList.add('popup__save-button_disabled')
+        submitButton.classList.add(config.inactiveButtonClass);
     } else {
         submitButton.removeAttribute('disabled');
-        submitButton.classList.remove('popup__save-button_disabled')
+        submitButton.classList.remove(config.inactiveButtonClass)
     }
 }
 
 
 //функция, добавляющая обработчики всем полям формы
-const setEventListenerForAllInput = (form) => {
-    const inputList = Array.from(form.querySelectorAll('.popup__input')); //создаем массив из всех элементов input в форме
-    const submitFormButton = form.querySelector('.popup__save-button');//кнопка сохранения
+const setEventListener = (form, config) => {
+    const inputList = Array.from(form.querySelectorAll(config.inputSelector)); //создаем массив из всех элементов input в форме
+    const submitFormButton = form.querySelector(config.submitButtonSelector);//кнопка сохранения
 
-    toggleSubmitButtonState(inputList, submitFormButton);//вызываем неактивное состояние, чтобы кнопка была еактивна при открытии
+    toggleSubmitButtonState(inputList, submitFormButton, validationConfig);//вызываем неактивное состояние, чтобы кнопка была еактивна при открытии
 
     inputList.forEach((formInputElement) => {
         formInputElement.addEventListener('input', () => {
             isValidForm(form, formInputElement);
-            toggleSubmitButtonState(inputList, submitFormButton);
+            toggleSubmitButtonState(inputList, submitFormButton, validationConfig);
         })
     })
 }
 
-//функция добавления валидации всем формам
-const isValidAllForms = () => {
-    const formList = Array.from(document.forms); //получаем массив из всех форм на странице
+
+const enableValidation = (config) => {
+    const formList = Array.from(document.querySelectorAll(config.formSelector)); //получаем массив из всех форм на странице
 
     formList.forEach((form) => {    //отменяем стандартное поведение для всех форм
         form.addEventListener('submit', (evt) => {
             evt.preventDefault();
         })
 
-        setEventListenerForAllInput(form); //вызываем функцию, которая повесит обработчики на все поля ввода в форме
+        setEventListener(form, validationConfig); //вызываем функцию, которая повесит обработчики на все поля ввода в форме
     })
 }
 
-isValidAllForms(); //вызываем функцию валидации для всех форм
-
-
+enableValidation(validationConfig);
