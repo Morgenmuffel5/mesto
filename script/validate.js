@@ -4,7 +4,7 @@ const validationConfig = {
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__button',
     inactiveButtonClass: 'popup__button_disabled',
-    /*inputErrorClass: 'popup__input_type_error',*/
+    inputErrorClass: 'popup__input_type_error',
     errorClass: 'popup__error_active'
 }
 
@@ -14,7 +14,7 @@ const showInputError = (form, formInputElement, errorMessage, config) => {
     const errorElement = form.querySelector(`.${formInputElement.id}-error`); //находим span с ошибки
 
     errorElement.textContent = errorMessage; //задаем текст ошибки
-    errorElement.classList.add(config.errorClass); //добавляем span класс, который сделает ошибку видимой
+    formInputElement.classList.add(config.inputErrorClass); //добавляем инпуту класс, чтобы реализовать красную границу
 
 }
 
@@ -22,7 +22,8 @@ const showInputError = (form, formInputElement, errorMessage, config) => {
 const hideInputError = (form, formInputElement, config) => {
     const errorElement = form.querySelector(`.${formInputElement.id}-error`);
 
-    errorElement.classList.remove(config.errorClass); //убираем span класс, который сделает ошибку видимой
+    errorElement.textContent = "";
+    formInputElement.classList.remove(config.inputErrorClass); //удаляем инпуту класс, чтобы реализовать красную границу
 }
 
 
