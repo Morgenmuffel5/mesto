@@ -69,7 +69,7 @@ function addCardsFromArr () {
 }
 
 addCardsFromArr (); //вывод массива на страницу
-
+/*
 //функция добавления обработчика закрытия по esc
 const closePopupByEsc = (popup) => {
     popup.addEventListener('keydown', (evt) => {
@@ -87,11 +87,23 @@ const removeClosePopupByEsc = (popup) => {
         }
     })
 }
+*/
 
+//функция сброса формы
+const resetForm = (form) => {
+    form.reset();
+}
+
+//функция сброса ошибок
+const resetError = (errorList) => {
+    errorList.forEach((errorElement) => {
+        errorElement.textContent = "";
+    })
+}
 
 //Общая функция открытия попапов
 function openPopup(popup) {
-    closePopupByEsc(popup);
+    /*closePopupByEsc(popup);*/
     popup.classList.add('popup_opened');
 }
 
@@ -99,7 +111,12 @@ function openPopup(popup) {
 //Общая функция простого закрытия попапов
 function closePopup (popup) {
     popup.classList.remove('popup_opened');
-    removeClosePopupByEsc(popup);
+    const form = popup.querySelector('.popup__form'); //ищем форму в указанном попапе
+    const errorList = Array.from(form.querySelectorAll('.popup__error'));//создаем массив ошибок в указанной форме
+
+    resetError(errorList); //сбрасываем все ошибки
+    resetForm(form); //сбрасываем поля формы
+    /*removeClosePopupByEsc(popup);*/
 }
 
 //вешаем обработчики на все кнопки закрытия 
