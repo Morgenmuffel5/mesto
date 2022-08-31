@@ -113,6 +113,20 @@ function addEventListenerForClosePopupButton() {
 }
 addEventListenerForClosePopupButton();//вызываем, чтобы обработчики повисли
 
+//функция закрытия по overlay
+const closePopupByOverlay = () => {
+    const popupList = Array.from(document.querySelectorAll('.popup')); //массив всех popup
+
+    popupList.forEach((popup) => {
+        popup.addEventListener('click', (evt) => {
+            if (evt.target == evt.currentTarget) {
+                closePopup(evt.currentTarget);
+            }
+        })
+    })
+}
+closePopupByOverlay();
+
 
 function addValueToInputProfile() {
     popupInputName.value = profileName.textContent; // присваиваем value полю формы, равное значению имени пользователя
@@ -199,19 +213,6 @@ popupForm.addEventListener('submit', submitFormPopupProfile); //сохранит
 addCardForm.addEventListener('submit', submitFormPopupAddCard)//сохранение новой карточки
 
 
-//функция закрытия по overlay
-const closePopupByOverlay = () => {
-    const popupList = Array.from(document.querySelectorAll('.popup')); //массив всех popup
-
-    popupList.forEach((popup) => {
-        popup.addEventListener('click', (evt) => {
-            if (evt.target == evt.currentTarget) {
-                closePopup(evt.currentTarget);
-            }
-        })
-    })
-}
-closePopupByOverlay();
 
 
 
