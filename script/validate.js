@@ -14,7 +14,8 @@ const showInputError = (form, formInputElement, errorMessage, config) => {
     const errorElement = form.querySelector(`.${formInputElement.id}-error`); //находим span с ошибки
 
     errorElement.textContent = errorMessage; //задаем текст ошибки
-    formInputElement.classList.add(config.inputErrorClass);
+    formInputElement.classList.add(config.inputErrorClass); //добавляем инпуту класс, чтобы реализовать красную границу
+
 }
 
 //функция, скрывающая ошибку
@@ -22,7 +23,7 @@ const hideInputError = (form, formInputElement, config) => {
     const errorElement = form.querySelector(`.${formInputElement.id}-error`);
 
     errorElement.textContent = "";
-    formInputElement.classList.remove(config.inputErrorClass);
+    formInputElement.classList.remove(config.inputErrorClass); //удаляем инпуту класс, чтобы реализовать красную границу
 }
 
 
