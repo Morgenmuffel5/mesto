@@ -113,7 +113,7 @@ function closePopup (popup) {
     }
     removeListenerEsc(popup);
 }
-
+ 
 //Общая функция открытия попапов
 function openPopup(popup) {
     popup.classList.add('popup_opened');
