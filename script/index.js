@@ -69,25 +69,7 @@ function addCardsFromArr () {
 }
 
 addCardsFromArr (); //вывод массива на страницу
-/*
-//функция добавления обработчика закрытия по esc
-const closePopupByEsc = (popup) => {
-    popup.addEventListener('keydown', (evt) => {
-        if (evt.key === 27) {
-            closePopup(popup);
-        }
-    })
-}
 
-//функция удаления обработчика закрытия по Esc
-const removeClosePopupByEsc = (popup) => {
-    popup.removeEventListener('keydown', (evt) => {
-        if (evt.key === 27) {
-            closePopup(popup);
-        }
-    })
-}
-*/
 
 //функция сброса формы
 const resetForm = (form) => {
@@ -101,23 +83,45 @@ const resetError = (errorList) => {
     })
 }
 
-//Общая функция открытия попапов
-function openPopup(popup) {
-    /*closePopupByEsc(popup);*/
-    popup.classList.add('popup_opened');
+//функция добавления слушателя на событиt Esc
+const addListenerEsc = (popup) => {
+    document.addEventListener('keydown', (evt) => {
+        if (evt.key === 'Escape') {
+            closePopup(popup);
+        }
+    })
 }
 
+//функция удаления слушателя собития Esc
+const removeListenerEsc = (popup) => {
+    document.removeEventListener('keydown', (evt) => {
+        if (evt.key === 'Escape') {
+            closePopup(popup);
+        }
+    })
+}
 
 //Общая функция простого закрытия попапов
 function closePopup (popup) {
     popup.classList.remove('popup_opened');
     const form = popup.querySelector('.popup__form'); //ищем форму в указанном попапе
-    const errorList = Array.from(form.querySelectorAll('.popup__error'));//создаем массив ошибок в указанной форме
 
+    if (popup.querySelector('.popup__form')) {//сброс формы и ошибок, если форма есть
+        const errorList = Array.from(form.querySelectorAll('.popup__error'));//создаем массив ошибок в указанной форме
     resetError(errorList); //сбрасываем все ошибки
     resetForm(form); //сбрасываем поля формы
-    /*removeClosePopupByEsc(popup);*/
+    }
+    removeListenerEsc(popup);
 }
+
+//Общая функция открытия попапов
+function openPopup(popup) {
+    popup.classList.add('popup_opened');
+
+    addListenerEsc(popup);
+}
+
+
 
 //вешаем обработчики на все кнопки закрытия 
 function addEventListenerForClosePopupButton() {

@@ -10,8 +10,7 @@ const validationConfig = {
 
 
 //функция показа ошибки
-const showInputError = (form, formInputElement, errorMessage, config) => {
-    const errorElement = form.querySelector(`.${formInputElement.id}-error`); //находим span с ошибки
+const showInputError = (formInputElement, errorMessage, config, errorElement) => {
 
     errorElement.textContent = errorMessage; //задаем текст ошибки
     formInputElement.classList.add(config.inputErrorClass); //добавляем инпуту класс, чтобы реализовать красную границу
@@ -19,8 +18,7 @@ const showInputError = (form, formInputElement, errorMessage, config) => {
 }
 
 //функция, скрывающая ошибку
-const hideInputError = (form, formInputElement, config) => {
-    const errorElement = form.querySelector(`.${formInputElement.id}-error`);
+const hideInputError = (formInputElement, config, errorElement) => {
 
     errorElement.textContent = "";
     formInputElement.classList.remove(config.inputErrorClass); //удаляем инпуту класс, чтобы реализовать красную границу
@@ -29,12 +27,15 @@ const hideInputError = (form, formInputElement, config) => {
 
 //функция, проверяющая валидность
 const isValidForm = (form, formInputElement) => {
+    const errorElement = form.querySelector(`.${formInputElement.id}-error`); //находим span с ошибки
+
     if (!formInputElement.validity.valid) {
-        showInputError(form, formInputElement, formInputElement.validationMessage, validationConfig);
+        showInputError(formInputElement, formInputElement.validationMessage, validationConfig, errorElement);
     } else {
-        hideInputError(form, formInputElement, validationConfig);
+        hideInputError(formInputElement, validationConfig, errorElement);
     }
 }
+
 
 
 //функция проверки на валидность всех полей
