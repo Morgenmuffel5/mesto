@@ -82,28 +82,28 @@ const resetForm = (form) => {
 }
 
 //функция сброса ошибок
-const resetError = (errorList, inputList) => {
+const resetError = (errorList, inputList, config) => {
     errorList.forEach((errorElement) => {
         errorElement.textContent = "";
     })
 
     inputList.forEach((formInput) => {
-        formInput.classList.remove('popup__input_type_error');
+        formInput.classList.remove(config.inputErrorClass);
     })
 }
 
 //функция очистки полей и ошибок если в попапе есть форма
-const resetFormAndError = (popup) => {
-    const submitButton = popup.querySelector('.popup__button');// кнопка сохранения
-    const form = popup.querySelector('.popup__form'); //ищем форму в указанном попапе
+const resetFormAndError = (popup, config) => {
+    const submitButton = popup.querySelector(config.submitButtonSelector);// кнопка сохранения
+    const form = popup.querySelector(config.formSelector); //ищем форму в указанном попапе
 
-    if (popup.querySelector('.popup__form')) {//сброс формы и ошибок, если форма есть
+    if (popup.querySelector(config.formSelector)) {//сброс формы и ошибок, если форма есть
         const errorList = Array.from(form.querySelectorAll('.popup__error'));//создаем массив ошибок в указанной форме
-        const inputList = Array.from(form.querySelectorAll('.popup__input'));//создаем массив всех инпутов в форме
-        resetError(errorList, inputList); //сбрасываем все ошибки
+        const inputList = Array.from(form.querySelectorAll(config.inputSelector));//создаем массив всех инпутов в форме
+        resetError(errorList, inputList, config); //сбрасываем все ошибки
         resetForm(form); //сбрасываем поля формы
         
-        toggleSubmitButtonState(inputList, submitButton, 'popup__button_disabled');
+        toggleSubmitButtonState(inputList, submitButton, config.inactiveButtonClass);
 
     }
 }

@@ -80,34 +80,34 @@ function addCardsFromArr() {
 }
 
 addCardsFromArr(); //вывод массива на страницу
-
-
+    
 
 
 
 //функция закрытия по Esc
-const closePopupOnEsc = (popup) => {
-    document.addEventListener('keydown', (evt) => {
-        if (evt.key === 'Escape') {
-            closePopup(popup);
-        }
-    })
-}
+const closePopupOnEsc = (evt) => { 
+    if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+                closePopup(openedPopup); 
+            }
+    } 
+
 
 //Общая функция простого закрытия попапов
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
 
-    resetFormAndError(popup);//очищаем форму и ошибки при закрытии без сохранения
+    resetFormAndError(popup, validationConfig);//очищаем форму и ошибки при закрытии без сохранения
 
-    popup.removeEventListener('keydown', closePopupOnEsc(popup));
+    document.removeEventListener('keydown', closePopupOnEsc);
+    
 }
 
 //Общая функция открытия попапов
 function openPopup(popup) {
     popup.classList.add('popup_opened');
-
-    popup.addEventListener('keydown', closePopupOnEsc(popup));
+    document.addEventListener('keydown', closePopupOnEsc);
+    /*popup.addEventListener('keydown', closePopupOnEsc(popup));*/
 }
 
 
@@ -138,12 +138,12 @@ function fillProfilePopupInputs() {
 //функция сохранения данных в форме изменения профиля
 function submitFormPopupProfile(evt) {
     evt.preventDefault();
-    const eventTarget = evt.target.closest('.popup');
+    const currentPopup = evt.target.closest('.popup');
 
     profileName.textContent = popupInputName.value;
     profileAbout.textContent = popupInputAbout.value;
 
-    closePopup(eventTarget)//закрыть форму
+    closePopup(currentPopup)//закрыть форму
 }
 
 
@@ -165,7 +165,7 @@ function createCard(cardName, imgLink) {
         event.target.classList.toggle('cards__like-button_active'); //реализация лайка
     })
 
-    deleteCardButton.addEventListener('click', function (event) {
+    deleteCardButton.addEventListener('click', function () {
         
         newCardItem.remove(); //реализация удаления
     })
