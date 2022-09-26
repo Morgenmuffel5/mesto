@@ -169,92 +169,6 @@ function submitFormPopupAddCard(evt) {
 }
 
 
-//функция показа ошибки
-/*const validationConfig = {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible'
-} //объект для включения валидации форм
-
-const showInputError = (formInputElement, errorMessage, errorElement, inputErrorClass) => {
-
-    errorElement.textContent = errorMessage; //задаем текст ошибки
-    formInputElement.classList.add(inputErrorClass); //добавляем инпуту класс, чтобы реализовать красную границу
-
-}
-
-//функция, скрывающая ошибку
-const hideInputError = (formInputElement, errorElement, inputErrorClass) => {
-
-    errorElement.textContent = "";
-    formInputElement.classList.remove(inputErrorClass); //удаляем инпуту класс, чтобы реализовать красную границу
-}
-
-
-//функция, проверяющая валидность
-const toggleInputError = (form, formInputElement, inputErrorClass) => {
-    const errorElement = form.querySelector(`.${formInputElement.id}-error`); //находим span с ошибки
-
-    if (!formInputElement.validity.valid) {
-        showInputError(formInputElement, formInputElement.validationMessage, errorElement, inputErrorClass);
-    } else {
-        hideInputError(formInputElement, errorElement, inputErrorClass);
-    }
-}
-
-
-//функция проверки на валидность всех полей
-const hasInvalidInput = (inputList) => {
-    return inputList.some((formInputElement) => {
-        return !formInputElement.validity.valid
-    })
-}
-
-//функция изменения состояния кнопки
-const toggleSubmitButtonState = (inputList, submitButton, inactiveButtonClass) => {
-    if (hasInvalidInput(inputList)) {
-        submitButton.setAttribute('disabled', true);
-        submitButton.classList.add(inactiveButtonClass);
-    } else {
-        submitButton.removeAttribute('disabled');
-        submitButton.classList.remove(inactiveButtonClass)
-    }
-}
-
-//функция, добавляющая обработчики всем полям формы
-const setEventListener = (form, formInput, submitButton, inactiveButtonClass, inputErrorClass) => {
-    const inputList = Array.from(form.querySelectorAll(formInput)); //создаем массив из всех элементов input в форме
-    const submitFormButton = form.querySelector(submitButton);//кнопка сохранения
-
-    toggleSubmitButtonState(inputList, submitFormButton, inactiveButtonClass);//вызываем неактивное состояние, чтобы кнопка была еактивна при открытии
-
-    inputList.forEach((formInputElement) => {
-        formInputElement.addEventListener('input', () => {
-            toggleInputError(form, formInputElement, inputErrorClass);
-            toggleSubmitButtonState(inputList, submitFormButton, inactiveButtonClass);
-        })
-    })
-}
-
-
-
-
-const enableValidation = (config) => {
-    const formList = Array.from(document.querySelectorAll(config.formSelector)); //получаем массив из всех форм на странице
-
-    formList.forEach((form) => {    //отменяем стандартное поведение для всех форм
-        form.addEventListener('submit', (evt) => {
-            evt.preventDefault();
-        })
-
-        setEventListener(form, config.inputSelector, config.submitButtonSelector, config.inactiveButtonClass, config.inputErrorClass); //вызываем функцию, которая повесит обработчики на все поля ввода в форме
-    })
-}*/
-
-
 //функция сброса формы
 const resetForm = (form) => {
     form.reset();
@@ -295,6 +209,8 @@ validProfileForm.enableValidation();
 
 const validAddCardForm = new FormValidator(validationConfig, addCardForm);
 validAddCardForm.enableValidation();
+
+
 
 //СОБЫТИЯ
 //открытие попапов
