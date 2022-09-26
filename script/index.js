@@ -1,3 +1,5 @@
+import {Card} from "../script/Card.js";
+import { FormValidator } from "../script/FormValidator.js";
 
 //ПЕРЕМЕННЫЕ
 
@@ -33,10 +35,10 @@ const newCardName = document.querySelector('.popup__input_value_place-name');//�
 const newCardLink = document.querySelector('.popup__input_value_img');//поле ввода ссылки
 
 //переменные Popup открытия фото
-const imgPopup = document.querySelector('.popup_open_image');//попап открытия фото
+/* const imgPopup = document.querySelector('.popup_open_image');//попап открытия фото
 const popupImgCloseButton = document.querySelector('.popup__close-button_close_image');//кнопка закрытия попап
 const popupPhoto = document.querySelector('.popup__img'); //картинка в попапе
-const popupCaption = document.querySelector('.popup__caption');// подпись картинки в попапе
+const popupCaption = document.querySelector('.popup__caption');// подпись картинки в попапе */
 
 
 
@@ -73,9 +75,9 @@ function addCardsFromArr() {
     ];
 
     initialCards.forEach(function (item) { //перебираем элементы и добавляем на страницу
-        const cardName = item.name;
-        const cardLink = item.link;
-        cardsList.prepend(createCard(cardName, cardLink));
+    
+        const cardItem = new Card('#tamlate-card', item.name, item.link);
+        cardsList.prepend(cardItem.getCard()); //cardList - список карточек
     })
 }
 
@@ -85,36 +87,36 @@ addCardsFromArr(); //вывод массива на страницу
 
 
 //функция закрытия по Esc
-const closePopupOnEsc = (evt) => { 
+ const closePopupOnEsc = (evt) => { 
     if (evt.key === 'Escape') {
     const openedPopup = document.querySelector('.popup_opened');
                 closePopup(openedPopup); 
             }
-    } 
+    }  
 
 
 //Общая функция простого закрытия попапов
-function closePopup(popup) {
+ function closePopup(popup) {
     popup.classList.remove('popup_opened');
 
     resetFormAndError(popup, validationConfig);//очищаем форму и ошибки при закрытии без сохранения
 
     document.removeEventListener('keydown', closePopupOnEsc);
     
-}
+} 
 
 //Общая функция открытия попапов
 function openPopup(popup) {
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', closePopupOnEsc);
-    /*popup.addEventListener('keydown', closePopupOnEsc(popup));*/
-}
 
+}
+ 
 
 
 
 //функция закрытия по overlay и кнопке закрытия
-const closePopupByClick = () => {
+ const closePopupByClick = () => {
     const popupList = Array.from(document.querySelectorAll('.popup')); //массив всех popup
 
     popupList.forEach((popup) => {
@@ -125,18 +127,18 @@ const closePopupByClick = () => {
         })
     })
 }
-closePopupByClick();
+closePopupByClick(); 
 
 
-function fillProfilePopupInputs() {
+ function fillProfilePopupInputs() {
     popupInputName.value = profileName.textContent; // присваиваем value полю формы, равное значению имени пользователя
     popupInputAbout.value = profileAbout.textContent;// присваиваем value полю формы, равное значению инфо о себе
     openPopup(popupEditProfile);
-}
+} 
 
 
 //функция сохранения данных в форме изменения профиля
-function submitFormPopupProfile(evt) {
+ function submitFormPopupProfile(evt) {
     evt.preventDefault();
     const currentPopup = evt.target.closest('.popup');
 
@@ -144,39 +146,13 @@ function submitFormPopupProfile(evt) {
     profileAbout.textContent = popupInputAbout.value;
 
     closePopup(currentPopup)//закрыть форму
-}
+} 
 
 
-//функция добавления карточек, здесь же удаление и лайки
-function createCard(cardName, imgLink) {
+//функция создания новой карточки
+function createCard(templateSelector, cardName, imageLink) {
 
-    const newCardItem = addCardTemplate.querySelector('.cards__item').cloneNode(true);//клонируем заготовку */
-    const cardImg = newCardItem.querySelector('.cards__img')// картинка в карточке
-    const cardTitle = newCardItem.querySelector('.cards__title');//заголовок карточки
-    const likeButton = newCardItem.querySelector('.cards__like-button');//кнопка лайк
-    const deleteCardButton = newCardItem.querySelector('.card__delete-button');//кнопка удаления карточки*/
-
-    cardImg.setAttribute('src', imgLink);//задаем значение src
-    cardImg.setAttribute('alt', cardName);//задаем значение src
-    cardTitle.textContent = cardName;//задае текст заголовка
-
-
-    likeButton.addEventListener('click', function (event) {
-        event.target.classList.toggle('cards__like-button_active'); //реализация лайка
-    })
-
-    deleteCardButton.addEventListener('click', function () {
-        
-        newCardItem.remove(); //реализация удаления
-    })
-
-    cardImg.addEventListener('click', function (event) {
-        const eventTarget = event.target;
-        popupPhoto.setAttribute('src', eventTarget.src);
-        popupPhoto.setAttribute('alt', eventTarget.alt);
-        popupCaption.textContent = newCardItem.querySelector('.cards__title').textContent;
-        openPopup(imgPopup);
-    }) //открытие попапа картинки
+    const newCardItem = new Card(templateSelector, cardName, imageLink).getCard();
 
     return newCardItem;
 }
@@ -187,13 +163,138 @@ function submitFormPopupAddCard(evt) {
     evt.preventDefault();
     const popup = evt.target.closest('.popup');
 
-    cardsList.prepend(createCard(newCardName.value, newCardLink.value));
+    cardsList.prepend(createCard('#tamlate-card', newCardName.value, newCardLink.value));
     
     closePopup(popup)//закрыть форму
 }
 
-//вызов валидации форм
-enableValidation(validationConfig);
+
+//функция показа ошибки
+/*const validationConfig = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+} //объект для включения валидации форм
+
+const showInputError = (formInputElement, errorMessage, errorElement, inputErrorClass) => {
+
+    errorElement.textContent = errorMessage; //задаем текст ошибки
+    formInputElement.classList.add(inputErrorClass); //добавляем инпуту класс, чтобы реализовать красную границу
+
+}
+
+//функция, скрывающая ошибку
+const hideInputError = (formInputElement, errorElement, inputErrorClass) => {
+
+    errorElement.textContent = "";
+    formInputElement.classList.remove(inputErrorClass); //удаляем инпуту класс, чтобы реализовать красную границу
+}
+
+
+//функция, проверяющая валидность
+const toggleInputError = (form, formInputElement, inputErrorClass) => {
+    const errorElement = form.querySelector(`.${formInputElement.id}-error`); //находим span с ошибки
+
+    if (!formInputElement.validity.valid) {
+        showInputError(formInputElement, formInputElement.validationMessage, errorElement, inputErrorClass);
+    } else {
+        hideInputError(formInputElement, errorElement, inputErrorClass);
+    }
+}
+
+
+//функция проверки на валидность всех полей
+const hasInvalidInput = (inputList) => {
+    return inputList.some((formInputElement) => {
+        return !formInputElement.validity.valid
+    })
+}
+
+//функция изменения состояния кнопки
+const toggleSubmitButtonState = (inputList, submitButton, inactiveButtonClass) => {
+    if (hasInvalidInput(inputList)) {
+        submitButton.setAttribute('disabled', true);
+        submitButton.classList.add(inactiveButtonClass);
+    } else {
+        submitButton.removeAttribute('disabled');
+        submitButton.classList.remove(inactiveButtonClass)
+    }
+}
+
+//функция, добавляющая обработчики всем полям формы
+const setEventListener = (form, formInput, submitButton, inactiveButtonClass, inputErrorClass) => {
+    const inputList = Array.from(form.querySelectorAll(formInput)); //создаем массив из всех элементов input в форме
+    const submitFormButton = form.querySelector(submitButton);//кнопка сохранения
+
+    toggleSubmitButtonState(inputList, submitFormButton, inactiveButtonClass);//вызываем неактивное состояние, чтобы кнопка была еактивна при открытии
+
+    inputList.forEach((formInputElement) => {
+        formInputElement.addEventListener('input', () => {
+            toggleInputError(form, formInputElement, inputErrorClass);
+            toggleSubmitButtonState(inputList, submitFormButton, inactiveButtonClass);
+        })
+    })
+}
+
+
+
+
+const enableValidation = (config) => {
+    const formList = Array.from(document.querySelectorAll(config.formSelector)); //получаем массив из всех форм на странице
+
+    formList.forEach((form) => {    //отменяем стандартное поведение для всех форм
+        form.addEventListener('submit', (evt) => {
+            evt.preventDefault();
+        })
+
+        setEventListener(form, config.inputSelector, config.submitButtonSelector, config.inactiveButtonClass, config.inputErrorClass); //вызываем функцию, которая повесит обработчики на все поля ввода в форме
+    })
+}*/
+
+
+//функция сброса формы
+const resetForm = (form) => {
+    form.reset();
+}
+
+//функция сброса ошибок
+const resetError = (errorList, inputList, config) => {
+    errorList.forEach((errorElement) => {
+        errorElement.textContent = "";
+    })
+
+    inputList.forEach((formInput) => {
+        formInput.classList.remove(config.inputErrorClass);
+    })
+}
+
+//функция очистки полей и ошибок если в попапе есть форма
+const resetFormAndError = (popup, config) => {
+    const submitButton = popup.querySelector(config.submitButtonSelector);// кнопка сохранения
+    const form = popup.querySelector(config.formSelector); //ищем форму в указанном попапе
+
+    if (popup.querySelector(config.formSelector)) {//сброс формы и ошибок, если форма есть
+        const errorList = Array.from(form.querySelectorAll('.popup__error'));//создаем массив ошибок в указанной форме
+        const inputList = Array.from(form.querySelectorAll(config.inputSelector));//создаем массив всех инпутов в форме
+        resetError(errorList, inputList, config); //сбрасываем все ошибки
+        resetForm(form); //сбрасываем поля формы
+        
+        /* toggleSubmitButtonState(inputList, submitButton, config.inactiveButtonClass); */
+
+    }
+}
+
+/* //вызов валидации форм
+enableValidation(validationConfig); */
+
+const validProfileForm = new FormValidator(validationConfig, popupProfileForm)
+validProfileForm.enableValidation();
+
+const validAddCardForm = new FormValidator(validationConfig, addCardForm);
+validAddCardForm.enableValidation();
 
 //СОБЫТИЯ
 //открытие попапов
@@ -201,9 +302,10 @@ addCardButton.addEventListener('click', function () { //открытие поп�
     openPopup(addCardPopup)
 });
 
-profileChangeButton.addEventListener('click', fillProfilePopupInputs); //открытие попапа редактирования профиля*/
+profileChangeButton.addEventListener('click', fillProfilePopupInputs); //открытие попапа редактирования профиля
 
 //сохранение введенных пользователем данных
 popupProfileForm.addEventListener('submit', submitFormPopupProfile); //сохранить данные редактирования профиля
 
 addCardForm.addEventListener('submit', submitFormPopupAddCard)//сохранение новой карточки
+
