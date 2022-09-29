@@ -1,4 +1,4 @@
-
+import { openPopup } from "../script/index.js";
 const popupPhoto = document.querySelector('.popup__img'); //картинка в попапе
 const imgPopup = document.querySelector('.popup_open_image');//попап открытия фото
 const popupCaption = document.querySelector('.popup__caption');// подпись картинки в попапе
@@ -13,7 +13,7 @@ export class Card {
     _likeButton;
     _deleteCardButton;
     _cardImg;
-  
+
     constructor(templateSelector, cardName, imageLink) {
         this._templateSelector = templateSelector;
         this._cardName = cardName;
@@ -23,17 +23,16 @@ export class Card {
         this._deleteCardButton = this._newCard.querySelector('.card__delete-button');
         this._cardImg = this._newCard.querySelector('.cards__img');
 
-
     }
 
-   
+
 
 
     //метод возвращает полностью готовую карточку
     getCard() {
         this._setEventListeres();
-        this._newCard.querySelector('.cards__img').src = this._imageLink;
-        this._newCard.querySelector('.cards__img').alt = this._cardName;
+        this._cardImg.src = this._imageLink;
+        this._cardImg.alt = this._cardName;
         this._newCard.querySelector('.cards__title').textContent = this._cardName;
 
         return this._newCard;
@@ -49,43 +48,9 @@ export class Card {
     //метод удаления карточки
     _deleteCard() {
         this._newCard.remove();
+        this._newCard = null
     }
 
-    //метод удаления класса открытия для попапа
-    _closeImagePopup() {
-        imgPopup.classList.remove('popup_opened');
-    }
-
-    //метод закрытия попапа по esc
-     _closePopupByEsc(evt) {
-        if (evt.key === 'Escape') {
-            this._closeImagePopup();
-        }
-    }
-
-    //метод закрытия попапа картинки по оверлей и кнопке закрытия
-    _closePopup(evt) {
-        if (evt.target == evt.currentTarget || evt.target.classList.contains('popup__close-button')) {
-            popupPhoto.src = "";
-            this._closeImagePopup();
-            document.removeEventListener('keydown', () => {
-                this._closePopupByEsc(evt);
-            });
-        }
-    }
-
-
-    //метод открытия попапа картинки 
-    _openImagePopup() {
-        popupPhoto.src = this._imageLink;
-        popupPhoto.alt = this._cardName;
-        popupCaption.textContent = this._cardName;
-
-        imgPopup.classList.add('popup_opened');
-        document.addEventListener('keydown', (evt) => {
-            this._closePopupByEsc(evt); 
-        })
-    }
 
     //метод добавления слушателей 
     _setEventListeres() {
@@ -93,17 +58,17 @@ export class Card {
             this._toggleClassLikeButton();
         });
 
-         this._deleteCardButton.addEventListener('click', () => {
+        this._deleteCardButton.addEventListener('click', () => {
             this._deleteCard();
         })
 
+
         this._cardImg.addEventListener('click', () => {
-            this._openImagePopup();
+            popupPhoto.src = this._imageLink;
+            popupPhoto.alt = this._cardName;
+            popupCaption.textContent = this._cardName;
+            openPopup(imgPopup);
         })
 
-
-        imgPopup.addEventListener('click', (evt) => {
-            this._closePopup(evt)
-        })
-    } 
+    }
 }

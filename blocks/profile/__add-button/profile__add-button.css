@@ -12,6 +12,7 @@
     cursor: pointer;
     outline: none;
     background-size: 22px;
+    display: block;
 }
 
 
@@ -19,6 +20,12 @@
     opacity: 0.6;
 }
 
+@media all and (max-width: 800px) {
+    .profile__add-button {
+        min-width: 80px;
+        background-size: 16px;
+    }
+}
 
 @media all and (max-width: 600px) {
     .profile__add-button {
@@ -26,4 +33,3 @@
         background-size: 16px;
 }
 }
-/*замечание 3я иттерация - исправлено. удален медиазапрос с повторяющимся значеним*/

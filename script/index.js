@@ -12,7 +12,7 @@ const validationConfig = {
     errorClass: 'popup__error_visible'
 } //объект для включения валидации форм
 
-const closePopupButtons = document.querySelectorAll('.popup__close-button');//все кнопки закрытия
+const buttonsCloseList = document.querySelectorAll('.popup__close-button');//все кнопки закрытия
 
 //переменные popup изменения профиля
 const profileChangeButton = document.querySelector('.profile__change-button');//кнопка изменения профайла
@@ -25,20 +25,20 @@ const profileCloseButton = document.querySelector('.popup__close-button_close_pr
 const popupProfileForm = document.querySelector('.popup__form_change_profile');//сама форма
 
 //переменные popup добавления карточки
-const addCardPopup = document.querySelector('.popup_open_add-card'); // секция попап добавления карточки
-const addCardButton = document.querySelector('.profile__add-button'); //кнопка добавления карточки
-const addCardButtonClose = document.querySelector('.popup__close-button_close_add-card') //кнопка закрытия попапа добавления карточек
-const addCardForm = document.querySelector('.popup__form_change_add-card')//форма попапа добавления карточек
-const cardsList = document.querySelector('.cards__list'); // список карточек
-const addCardTemplate = document.querySelector('#tamlate-card').content //заготовка карточки
+const popupCard = document.querySelector('.popup_open_add-card'); // секция попап добавления карточки
+const buttonCard = document.querySelector('.profile__add-button'); //кнопка добавления карточки
+const buttonCardPopupClose = document.querySelector('.popup__close-button_close_add-card') //кнопка закрытия попапа добавления карточек
+const formCard = document.querySelector('.popup__form_change_add-card')//форма попапа добавления карточек
+const cardContainer = document.querySelector('.cards__list'); // список карточек
+const cardTemplate = document.querySelector('#tamlate-card').content //заготовка карточки
 const newCardName = document.querySelector('.popup__input_value_place-name');//поле ввода имени места
 const newCardLink = document.querySelector('.popup__input_value_img');//поле ввода ссылки
 
 //переменные Popup открытия фото
-/* const imgPopup = document.querySelector('.popup_open_image');//попап открытия фото
+const imgPopup = document.querySelector('.popup_open_image');//попап открытия фото
 const popupImgCloseButton = document.querySelector('.popup__close-button_close_image');//кнопка закрытия попап
 const popupPhoto = document.querySelector('.popup__img'); //картинка в попапе
-const popupCaption = document.querySelector('.popup__caption');// подпись картинки в попапе */
+const popupCaption = document.querySelector('.popup__caption');// подпись картинки в попапе
 
 
 
@@ -75,9 +75,10 @@ function addCardsFromArr() {
     ];
 
     initialCards.forEach(function (item) { //перебираем элементы и добавляем на страницу
-    
-        const cardItem = new Card('#tamlate-card', item.name, item.link);
-        cardsList.prepend(cardItem.getCard()); //cardList - список карточек
+
+        const cardItem = createCard('#tamlate-card', item.name, item.link)
+
+        cardContainer.prepend(cardItem); //cardList - список карточек
     })
 }
 
@@ -87,47 +88,37 @@ addCardsFromArr(); //вывод массива на страницу
 
 
 //функция закрытия по Esc
- const closePopupOnEsc = (evt) => { 
+const closePopupOnEsc = (evt, popup) => { 
     if (evt.key === 'Escape') {
-    const openedPopup = document.querySelector('.popup_opened');
-                closePopup(openedPopup); 
-            }
+        closePopup(popup);  
+        }
     }  
 
 
 //Общая функция простого закрытия попапов
- function closePopup(popup) {
+ export function closePopup(popup) {
     popup.classList.remove('popup_opened');
-
-    resetFormAndError(popup, validationConfig);//очищаем форму и ошибки при закрытии без сохранения
-
-    document.removeEventListener('keydown', closePopupOnEsc);
-    
+    document.removeEventListener('keydown', (evt) => {
+        closePopupOnEsc(evt, popup)
+    })
 } 
 
 //Общая функция открытия попапов
-function openPopup(popup) {
+export function openPopup(popup) {
     popup.classList.add('popup_opened');
-    document.addEventListener('keydown', closePopupOnEsc);
-
+    document.addEventListener('keydown', (evt) => {
+        closePopupOnEsc(evt, popup)
+    });
 }
- 
 
 
 
-//функция закрытия по overlay и кнопке закрытия
- const closePopupByClick = () => {
-    const popupList = Array.from(document.querySelectorAll('.popup')); //массив всех popup
-
-    popupList.forEach((popup) => {
-        popup.addEventListener('click', (evt) => {
+export const closePopupByClick = (evt, popup) => {
             if (evt.target == evt.currentTarget ||  evt.target.classList.contains('popup__close-button')) {
-                closePopup(evt.currentTarget);
+                closePopup(popup);
             }
-        })
-    })
-}
-closePopupByClick(); 
+        }
+
 
 
  function fillProfilePopupInputs() {
@@ -140,19 +131,18 @@ closePopupByClick();
 //функция сохранения данных в форме изменения профиля
  function submitFormPopupProfile(evt) {
     evt.preventDefault();
-    const currentPopup = evt.target.closest('.popup');
-
+    
     profileName.textContent = popupInputName.value;
     profileAbout.textContent = popupInputAbout.value;
 
-    closePopup(currentPopup)//закрыть форму
+    closePopup(popupEditProfile)//закрыть форму
 } 
 
 
 //функция создания новой карточки
-function createCard(templateSelector, cardName, imageLink) {
+function createCard(templateSelector, cardName, imageLink, handleOpenPopup) {
 
-    const newCardItem = new Card(templateSelector, cardName, imageLink).getCard();
+    const newCardItem = new Card(templateSelector, cardName, imageLink, handleOpenPopup).getCard();
 
     return newCardItem;
 }
@@ -163,65 +153,32 @@ function submitFormPopupAddCard(evt) {
     evt.preventDefault();
     const popup = evt.target.closest('.popup');
 
-    cardsList.prepend(createCard('#tamlate-card', newCardName.value, newCardLink.value));
+    cardContainer.prepend(createCard('#tamlate-card', newCardName.value, newCardLink.value));
     
     closePopup(popup)//закрыть форму
 }
 
 
-//функция сброса формы
-const resetForm = (form) => {
-    form.reset();
-}
 
-//функция сброса ошибок
-const resetError = (errorList, inputList, config) => {
-    errorList.forEach((errorElement) => {
-        errorElement.textContent = "";
-    })
-
-    inputList.forEach((formInput) => {
-        formInput.classList.remove(config.inputErrorClass);
-    })
-}
-
-//функция очистки полей и ошибок если в попапе есть форма
-const resetFormAndError = (popup, config) => {
-    const submitButton = popup.querySelector(config.submitButtonSelector);// кнопка сохранения
-    const form = popup.querySelector(config.formSelector); //ищем форму в указанном попапе
-
-    if (popup.querySelector(config.formSelector)) {//сброс формы и ошибок, если форма есть
-        const errorList = Array.from(form.querySelectorAll('.popup__error'));//создаем массив ошибок в указанной форме
-        const inputList = Array.from(form.querySelectorAll(config.inputSelector));//создаем массив всех инпутов в форме
-        resetError(errorList, inputList, config); //сбрасываем все ошибки
-        resetForm(form); //сбрасываем поля формы
-        
-        /* toggleSubmitButtonState(inputList, submitButton, config.inactiveButtonClass); */
-
-    }
-}
-
-/* //вызов валидации форм
-enableValidation(validationConfig); */
-
-const validProfileForm = new FormValidator(validationConfig, popupProfileForm)
+const validProfileForm = new FormValidator(validationConfig, popupProfileForm ,popupEditProfile, submitFormPopupProfile)
 validProfileForm.enableValidation();
 
-const validAddCardForm = new FormValidator(validationConfig, addCardForm);
+const validAddCardForm = new FormValidator(validationConfig, formCard, popupCard, submitFormPopupAddCard);
 validAddCardForm.enableValidation();
 
 
 
 //СОБЫТИЯ
 //открытие попапов
-addCardButton.addEventListener('click', function () { //открытие попапа добавления карточки
-    openPopup(addCardPopup)
+buttonCard.addEventListener('click', function () { //открытие попапа добавления карточки
+    openPopup(popupCard)
 });
 
 profileChangeButton.addEventListener('click', fillProfilePopupInputs); //открытие попапа редактирования профиля
 
-//сохранение введенных пользователем данных
-popupProfileForm.addEventListener('submit', submitFormPopupProfile); //сохранить данные редактирования профиля
+imgPopup.addEventListener('click', (evt) => {
+    closePopupByClick(evt, imgPopup)
+})
 
-addCardForm.addEventListener('submit', submitFormPopupAddCard)//сохранение новой карточки
+
 
