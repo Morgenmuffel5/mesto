@@ -17,6 +17,13 @@
         font-size: 30px;
 }
 }
+
+@media all and (max-width: 800px) {
+    .profile__name {
+        max-width: 199px;
+    }
+}
+
 @media all and (max-width: 600px) {
     .profile__name {
         font-size: 27px;

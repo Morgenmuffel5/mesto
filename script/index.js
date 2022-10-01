@@ -1,4 +1,4 @@
-import {Card} from "../script/Card.js";
+import { Card } from "../script/Card.js";
 import { FormValidator } from "../script/FormValidator.js";
 
 //ПЕРЕМЕННЫЕ
@@ -39,6 +39,8 @@ const imgPopup = document.querySelector('.popup_open_image');//попап отк
 const popupImgCloseButton = document.querySelector('.popup__close-button_close_image');//кнопка закрытия попап
 const popupPhoto = document.querySelector('.popup__img'); //картинка в попапе
 const popupCaption = document.querySelector('.popup__caption');// подпись картинки в попапе
+
+const formList = Array.from(document.querySelectorAll(validationConfig.formSelector))
 
 
 
@@ -82,67 +84,82 @@ function addCardsFromArr() {
     })
 }
 
-addCardsFromArr(); //вывод массива на страницу
-    
 
+addCardsFromArr(); //вывод массива на страницу
+
+//создаем объект валидации
+const formValidation = {};
+
+formList.forEach((form) => {
+    const validation = new FormValidator(validationConfig, form);
+
+  const formName = form.getAttribute("name");
+
+  formValidation[formName] = validation;
+
+  validation.enableValidation();
+  });
 
 
 //функция закрытия по Esc
-const closePopupOnEsc = (evt, popup) => { 
+const closePopupOnEsc = (evt) => {
     if (evt.key === 'Escape') {
-        closePopup(popup);  
-        }
-    }  
-
+        const popup = document.querySelector('.popup_opened')
+        closePopup(popup);
+    }
+}
 
 //Общая функция простого закрытия попапов
- export function closePopup(popup) {
+function closePopup(popup) {
     popup.classList.remove('popup_opened');
-    document.removeEventListener('keydown', (evt) => {
-        closePopupOnEsc(evt, popup)
-    })
-} 
+    document.removeEventListener('keydown', closePopupOnEsc)
+    
+    if (popup.querySelector(".popup__form")) {
+        formValidation[popup.querySelector(".popup__form").getAttribute("name")].resetValidation();//если попап содержит форму, сбрасывам ошибки  и  форму
+        resetForm(popup);
+      }
+
+}
 
 //Общая функция открытия попапов
-export function openPopup(popup) {
+ export function openPopup(popup) {
     popup.classList.add('popup_opened');
-    document.addEventListener('keydown', (evt) => {
-        closePopupOnEsc(evt, popup)
-    });
+    document.addEventListener('keydown', closePopupOnEsc)
+    formValidation[popupCard.querySelector(".popup__form").getAttribute("name")].disableSummitButton()
+}
+
+
+const closePopupByClick = () => {
+    const popupList = document.querySelectorAll('.popup');
+
+    popupList.forEach((popupItem) => {
+        popupItem.addEventListener('click', (evt) => {
+            if (evt.target == evt.currentTarget || evt.target.classList.contains('popup__close-button')) {
+                closePopup(evt.currentTarget);
+            }
+        })
+    })
+}
+
+closePopupByClick()
+
+
+
+
+function fillProfilePopupInputs() {
+    popupInputName.value = profileName.textContent; // присваиваем value полю формы, равное значению имени пользователя
+    popupInputAbout.value = profileAbout.textContent;// присваиваем value полю формы, равное значению инфо о себе
+    openPopup(popupEditProfile);
 }
 
 
 
-export const closePopupByClick = (evt, popup) => {
-            if (evt.target == evt.currentTarget ||  evt.target.classList.contains('popup__close-button')) {
-                closePopup(popup);
-            }
-        }
-
-
-
- function fillProfilePopupInputs() {
-    popupInputName.value = profileName.textContent; // присваиваем value полю формы, равное значению имени пользователя
-    popupInputAbout.value = profileAbout.textContent;// присваиваем value полю формы, равное значению инфо о себе
-    openPopup(popupEditProfile);
-} 
-
-
-//функция сохранения данных в форме изменения профиля
- function submitFormPopupProfile(evt) {
-    evt.preventDefault();
-    
-    profileName.textContent = popupInputName.value;
-    profileAbout.textContent = popupInputAbout.value;
-
-    closePopup(popupEditProfile)//закрыть форму
-} 
 
 
 //функция создания новой карточки
-function createCard(templateSelector, cardName, imageLink, handleOpenPopup) {
+function createCard(templateSelector, cardName, imageLink) {
 
-    const newCardItem = new Card(templateSelector, cardName, imageLink, handleOpenPopup).getCard();
+    const newCardItem = new Card(templateSelector, cardName, imageLink).getCard();
 
     return newCardItem;
 }
@@ -151,20 +168,31 @@ function createCard(templateSelector, cardName, imageLink, handleOpenPopup) {
 //добавление новой карточки на страницу
 function submitFormPopupAddCard(evt) {
     evt.preventDefault();
-    const popup = evt.target.closest('.popup');
+    formValidation[popupCard.querySelector(".popup__form").getAttribute("name")].disableSummitButton();
 
     cardContainer.prepend(createCard('#tamlate-card', newCardName.value, newCardLink.value));
-    
-    closePopup(popup)//закрыть форму
+
+    closePopup(popupCard)//закрыть форму
+    resetForm(popupCard)
+}
+//функция сохранения данных в форме изменения профиля
+function submitFormPopupProfile(evt) {
+    evt.preventDefault();
+    formValidation[popupCard.querySelector(".popup__form").getAttribute("name")].disableSummitButton();
+    profileName.textContent = popupInputName.value;
+    profileAbout.textContent = popupInputAbout.value;
+
+    closePopup(popupEditProfile)//закрыть форму
+    resetForm(popupEditProfile)
 }
 
+//сброс формы
+function resetForm(popup) {
+        const form = popup.querySelector('.popup__form');
+        form.reset();
+        formValidation[popup.querySelector(".popup__form").getAttribute("name")].disableSummitButton();
+    }
 
-
-const validProfileForm = new FormValidator(validationConfig, popupProfileForm ,popupEditProfile, submitFormPopupProfile)
-validProfileForm.enableValidation();
-
-const validAddCardForm = new FormValidator(validationConfig, formCard, popupCard, submitFormPopupAddCard);
-validAddCardForm.enableValidation();
 
 
 
@@ -172,13 +200,10 @@ validAddCardForm.enableValidation();
 //открытие попапов
 buttonCard.addEventListener('click', function () { //открытие попапа добавления карточки
     openPopup(popupCard)
-});
+})
 
 profileChangeButton.addEventListener('click', fillProfilePopupInputs); //открытие попапа редактирования профиля
 
-imgPopup.addEventListener('click', (evt) => {
-    closePopupByClick(evt, imgPopup)
-})
-
-
-
+//сохранение форм
+formCard.addEventListener('submit',submitFormPopupAddCard)
+popupProfileForm.addEventListener('submit', submitFormPopupProfile)

@@ -1,12 +1,9 @@
-import { closePopup } from "../script/index.js";
-import { closePopupByClick } from "../script/index.js";
-
 
 
 export class FormValidator {
 
 
-    constructor(config, form, popup, submitForm) {
+    constructor(config, form) {
         this._form = form;
         this._inputSelector = config.inputSelector;
         this._submitButtonSelector = config.submitButtonSelector;
@@ -14,8 +11,6 @@ export class FormValidator {
         this._inputErrorClass = config.inputErrorClass;
         this._inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
         this._bottonSubmitElement = this._form.querySelector(this._submitButtonSelector)
-        this._popup = popup;
-        this._submitForm = submitForm;
      
     }
 
@@ -58,27 +53,27 @@ export class FormValidator {
     //метод изменения состояния кнопки
     _toggleSubmitButtonState() {
         if (this._hasInvalidUnput(this._inputList)) {
-            this._bottonSubmitElement.setAttribute('disabled', true);
-            this._bottonSubmitElement.classList.add(this._inactiveButtonClass);
+            this.disableSummitButton;
         } else {
             this._bottonSubmitElement.removeAttribute('disabled');
             this._bottonSubmitElement.classList.remove(this._inactiveButtonClass)
         }
     }
+    
 
-    _resetForm() {
-        const errorElementList = Array.from(this._form.querySelectorAll('.popup__error'));
-
-        errorElementList.forEach((erEl) => {
-            erEl.textContent = "";
+    //сброс ошибок
+    resetValidation() {
+        this._toggleSubmitButtonState()
+        this._inputList.forEach((inputItem) => {
+            this._hideError(inputItem);
+            /* inputItem.textContent = "" */
         })
+    } 
 
-        this._inputList.forEach((formInput) => {
-            formInput.classList.remove(this._inputErrorClass);
-        })
-
-        this._form.reset();
-
+    //неактивность кнопки
+    disableSummitButton() {
+        this._bottonSubmitElement.setAttribute('disabled', true);
+        this._bottonSubmitElement.classList.add(this._inactiveButtonClass);
     }
 
 
@@ -95,21 +90,5 @@ export class FormValidator {
                 this._toggleSubmitButtonState();
             })
         })
-
-        this._popup.addEventListener('click', (evt) => {
-            if (evt.target == evt.currentTarget || evt.target.classList.contains('popup__close-button')) {
-                this._resetForm();
-                this._toggleSubmitButtonState()
-                closePopup(this._popup);
-            }
-        })
-
-        this._form.addEventListener('submit', (evt) => {
-            this._submitForm(evt)
-            this._resetForm();
-            this._toggleSubmitButtonState();
-        })
-
-
     }
 }
