@@ -113,19 +113,12 @@ const closePopupOnEsc = (evt) => {
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
     document.removeEventListener('keydown', closePopupOnEsc)
-    
-    if (popup.querySelector(".popup__form")) {
-        formValidation[popup.querySelector(".popup__form").getAttribute("name")].resetValidation();//если попап содержит форму, сбрасывам ошибки  и  форму
-        resetForm(popup);
-      }
-
 }
 
 //Общая функция открытия попапов
  export function openPopup(popup) {
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', closePopupOnEsc)
-    formValidation[popupCard.querySelector(".popup__form").getAttribute("name")].disableSummitButton()
 }
 
 
@@ -157,9 +150,9 @@ function fillProfilePopupInputs() {
 
 
 //функция создания новой карточки
-function createCard(templateSelector, cardName, imageLink) {
+function createCard(cardName, imageLink) {
 
-    const newCardItem = new Card(templateSelector, cardName, imageLink).getCard();
+    const newCardItem = new Card('#tamlate-card', cardName, imageLink).getCard();
 
     return newCardItem;
 }
@@ -168,41 +161,39 @@ function createCard(templateSelector, cardName, imageLink) {
 //добавление новой карточки на страницу
 function submitFormPopupAddCard(evt) {
     evt.preventDefault();
-    formValidation[popupCard.querySelector(".popup__form").getAttribute("name")].disableSummitButton();
 
     cardContainer.prepend(createCard('#tamlate-card', newCardName.value, newCardLink.value));
 
     closePopup(popupCard)//закрыть форму
-    resetForm(popupCard)
+    formCard.reset();
 }
 //функция сохранения данных в форме изменения профиля
 function submitFormPopupProfile(evt) {
     evt.preventDefault();
-    formValidation[popupCard.querySelector(".popup__form").getAttribute("name")].disableSummitButton();
     profileName.textContent = popupInputName.value;
     profileAbout.textContent = popupInputAbout.value;
 
     closePopup(popupEditProfile)//закрыть форму
-    resetForm(popupEditProfile)
 }
 
 //сброс формы
-function resetForm(popup) {
-        const form = popup.querySelector('.popup__form');
-        form.reset();
-        formValidation[popup.querySelector(".popup__form").getAttribute("name")].disableSummitButton();
-    }
 
 
 
 
 //СОБЫТИЯ
 //открытие попапов
-buttonCard.addEventListener('click', function () { //открытие попапа добавления карточки
+buttonCard.addEventListener('click', function () {
+    formValidation[popupCard.querySelector(".popup__form").getAttribute("name")].disableSummitButton(); //открытие попапа добавления карточки
+    formValidation[popup.querySelector(".popup__form").getAttribute("name")].resetValidation()
     openPopup(popupCard)
 })
 
-profileChangeButton.addEventListener('click', fillProfilePopupInputs); //открытие попапа редактирования профиля
+profileChangeButton.addEventListener('click', () => {
+    formValidation[popupCard.querySelector(".popup__form").getAttribute("name")].disableSummitButton();
+    formValidation[popup.querySelector(".popup__form").getAttribute("name")].resetValidation()
+    fillProfilePopupInputs();
+}); //открытие попапа редактирования профиля
 
 //сохранение форм
 formCard.addEventListener('submit',submitFormPopupAddCard)
