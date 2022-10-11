@@ -1,7 +1,7 @@
 .profile__info {
     min-width: 486px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
 }
 

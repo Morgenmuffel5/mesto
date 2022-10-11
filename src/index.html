@@ -18,7 +18,7 @@
             <main>
                 <section class="profile">
                     <div class="profile__info">
-                        <img  src="../images/avatar.jpg" alt="аватар пользователя" class="profile__photo">
+                        <img alt="аватар пользователя" src="<%=require('./images/avatar.jpg')%>" class="profile__photo"> 
                         <div class="profile__text">
                             <div class="profile__name-cont">
                                 <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -49,7 +49,7 @@
                         id="popup__input-name"
                         type="text"
                         class="popup__input popup__input_value_name"
-                        name="Name"
+                        name="name"
                         required
                         minlength="2"
                         maxlength="40"
@@ -63,7 +63,7 @@
                         id="popup__input-about"
                         type="text"
                         class="popup__input popup__input_value_about"
-                        name="About"
+                        name="about"
                         required
                         minlength="2"
                         maxlength="200"

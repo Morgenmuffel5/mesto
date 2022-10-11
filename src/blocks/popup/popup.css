@@ -11,5 +11,6 @@
    justify-content: center;
    opacity: 0;
    visibility: hidden;
-   transition: visibility 0s, opacity 0.5s linear;
+   transition: all .5s ease;
 }
+

@@ -4,6 +4,7 @@
     border-radius: 50%;
     box-sizing: border-box;
     object-fit: cover;
+    margin-right: 30px;
 }
 
 @media all and (max-width: 600px) {

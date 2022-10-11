@@ -12,12 +12,15 @@ export class UserInfo {
     }
 
     getUserInfo() {
-        popupInputName.value = this._name.textContent;
-        popupInputAbout.value = this._userInfo.textContent;
+        this._userInfoObj ={}
+        this._userInfoObj.userName = this._name.textContent;
+        this._userInfoObj.infoAbout = this._userInfo.textContent;
+
+        return this._userInfoObj
     }
 
-    setUserInfo({Name, About}) {
-        this._name.textContent = Name;
-        this._userInfo.textContent = About;
+    setUserInfo({name, about}) {
+        this._name.textContent = name;
+        this._userInfo.textContent = about;
     }
 }
