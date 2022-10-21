@@ -5,12 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./pages/index.css">
-    <script defer type="module" src="./script/index.js"></script> 
-
-
+    
     <title>Сервис Mesto</title>
-</head>
+<script defer src="main.js"></script><link href="main.css" rel="stylesheet"></head>
 
 <body class="page">
   
@@ -21,7 +18,7 @@
             <main>
                 <section class="profile">
                     <div class="profile__info">
-                        <img src="./images/avatar.jpg" alt="аватар пользователя" class="profile__photo">
+                        <img alt="аватар пользователя" src="76fca75e67e2c9a6b0a1.jpg" class="profile__photo"> 
                         <div class="profile__text">
                             <div class="profile__name-cont">
                                 <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -52,7 +49,7 @@
                         id="popup__input-name"
                         type="text"
                         class="popup__input popup__input_value_name"
-                        name="Name"
+                        name="name"
                         required
                         minlength="2"
                         maxlength="40"
@@ -66,7 +63,7 @@
                         id="popup__input-about"
                         type="text"
                         class="popup__input popup__input_value_about"
-                        name="About"
+                        name="about"
                         required
                         minlength="2"
                         maxlength="200"
@@ -92,7 +89,7 @@
                         id="popup__input-title"
                         type="text"
                         class="popup__input popup__input_value_place-name"
-                        name="place-name"
+                        name="place"
                         placeholder="Название"
                         minlength="2"
                         maxlength="30"
@@ -107,7 +104,7 @@
                         id="popup__input-url"
                         type="url"
                         class="popup__input popup__input_value_img"
-                        name="link-for-picture"
+                        name="link"
                         placeholder="Ссылка на картинку"
                         required
                         novalidate>
