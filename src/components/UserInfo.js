@@ -5,9 +5,10 @@ const popupInputAbout = document.querySelector('.popup__input_value_about'); //Ð
 
 export class UserInfo {
 
-    constructor(nameSelector, infoSelector) {
+    constructor(nameSelector, infoSelector, userAvatarSelector) {
         this._name = document.querySelector(nameSelector);
         this._userInfo = document.querySelector(infoSelector);
+        this._userAvatar = document.querySelector(userAvatarSelector);
 
     }
 
@@ -22,5 +23,9 @@ export class UserInfo {
     setUserInfo({name, about}) {
         this._name.textContent = name;
         this._userInfo.textContent = about;
+    }
+
+    changeAvatar({avatar}) {
+        this._userAvatar.src = avatar;
     }
 }
