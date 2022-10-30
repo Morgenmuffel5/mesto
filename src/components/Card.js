@@ -91,6 +91,7 @@ export class Card {
     //метод удаления карточки
     _deleteCard() {
         this._handleOpenDelete(this._cardResponse);
+
     }
 
 

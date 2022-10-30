@@ -17,8 +17,8 @@ setEventListeners() {
     super.setEventListeners()
     this._deleteButton.addEventListener('click', (evt) => {
         evt.preventDefault()
-        this._handleDeleteCard(this._card);
-        super.closePopup();
+        this._handleDeleteCard(this._card)
+    
     })
 }
 }

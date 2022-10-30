@@ -1,5 +1,4 @@
-const popupInputName = document.querySelector('.popup__input_value_name');//поле ввода имени в форме
-const popupInputAbout = document.querySelector('.popup__input_value_about'); //поле ввода инфо о себе в форме
+
 
 
 

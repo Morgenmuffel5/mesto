@@ -9,53 +9,23 @@ import './index.css';
 import { Section } from '../components/Section.js'
 import { Api } from "../components/Api.js";
 
-
-
 //ПЕРЕМЕННЫЕ
+import {popupAvatarForm} from "../components/utils/constants.js"
+import {avatar} from "../components/utils/constants.js"
+import {profileChangeButton} from "../components/utils/constants.js"
+import {popupInputName} from "../components/utils/constants.js"
+import {popupInputAbout} from "../components/utils/constants.js"
+import {popupProfileForm} from "../components/utils/constants.js"
+import {profilePhoto} from "../components/utils/constants.js"
+import {buttonCard} from "../components/utils/constants.js"
+import {formCard} from "../components/utils/constants.js"
+import {validationConfig} from "../components/utils/constants.js"
+import {} from "../components/utils/constants.js"
 
-const validationConfig = {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible'
-} //объект для включения валидации форм
 
-const buttonsCloseList = document.querySelectorAll('.popup__close-button');//все кнопки закрытия
-const popupAvatarForm = document.querySelector('.popup__form_avatar')
-const avatar = document.querySelector('.profile__avatar')
-//переменные popup изменения профиля
-const profileChangeButton = document.querySelector('.profile__change-button');//кнопка изменения профайла
-const popupEditProfile = document.querySelector('.popup_open_edit-profile'); // секция popup
-const popupInputName = document.querySelector('.popup__input_value_name');//поле ввода имени в форме
-const profileName = document.querySelector('.profile__name'); // поле имени в секции profile
-const popupInputAbout = document.querySelector('.popup__input_value_about'); //поле ввода инфо о себе в форме
-const profileAbout = document.querySelector('.profile__specialization');// поле инфо о себе в секции profile
-const profileCloseButton = document.querySelector('.popup__close-button_close_profile-change');//кнопка закрыть
-const popupProfileForm = document.querySelector('.popup__form_change_profile');//сама форма
-const profilePhoto = document.querySelector('.profile__photo')
-
-//переменные popup добавления карточки
-const popupCard = document.querySelector('.popup_open_add-card'); // секция попап добавления карточки
-const buttonCard = document.querySelector('.profile__add-button'); //кнопка добавления карточки
-const buttonCardPopupClose = document.querySelector('.popup__close-button_close_add-card') //кнопка закрытия попапа добавления карточек
-const formCard = document.querySelector('.popup__form_change_add-card')//форма попапа добавления карточек
-const cardContainer = document.querySelector('.cards__list'); // список карточек
-const cardTemplate = document.querySelector('#tamlate-card').content //заготовка карточки
-const newCardName = document.querySelector('.popup__input_value_place-name');//поле ввода имени места
-const newCardLink = document.querySelector('.popup__input_value_img');//поле ввода ссылки
-
-//переменные Popup открытия фото
-const imgPopup = document.querySelector('.popup_open_image');//попап открытия фото
-const popupImgCloseButton = document.querySelector('.popup__close-button_close_image');//кнопка закрытия попап
-const popupPhoto = document.querySelector('.popup__img'); //картинка в попапе
-const popupCaption = document.querySelector('.popup__caption');// подпись картинки в попапе
-
-const formList = Array.from(document.querySelectorAll(validationConfig.formSelector))
 
 let currentUserId = '';
-
+let cardDelete =''
 
 
 
@@ -72,7 +42,11 @@ const validationAvatarForm = new FormValidator(validationConfig, popupAvatarForm
 validationAvatarForm.enableValidation()
 
 //объект api
-const api = new Api();
+const api = new Api('https://nomoreparties.co/v1/cohort-52', 
+{
+    authorization: '32d71a68-3927-4155-9844-e97b16e8b4b1',
+        'Content-Type': 'application/json'
+});
 
 
 //попап с картинкой
@@ -83,8 +57,48 @@ popupWithImg.setEventListeners();
 //инфо профайла
 const user = new UserInfo('.profile__name', '.profile__specialization', '.profile__photo');
 
+//класс section
 
-api.getUserInfo().then(response => {
+const cardList = new Section({
+    render: (cardItem) => {
+        const card = createCard(cardItem.name, cardItem.link, cardItem);
+        cardList.addItem(card)
+    },
+},
+'.cards__list')
+
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, cards]) => {
+    user.setUserInfo({
+        name: userData.name,
+        about: userData.about
+    });
+    profilePhoto.src = userData.avatar
+    currentUserId = userData._id;
+
+    cardList.setItems(cards)
+    /* const cardList = new Section(
+        {
+            items: cards,
+            render: (cardItem) => {
+
+                const card = createCard(cardItem.name, cardItem.link, cardItem, currentUserId);
+                cardList.addItem(card);
+            }
+        },
+
+        '.cards__list'
+    ); */
+
+    /* cardList.setItems(cards); */
+  })
+  .catch(err => {
+    console.log(err)
+  }); 
+
+
+
+/*  api.getUserInfo().then(response => {
     //добавление массива на страницу
     currentUserId = response._id;
 api.getInitialCards().then(response => {
@@ -102,7 +116,7 @@ api.getInitialCards().then(response => {
         '.cards__list'
     );
 
-    cardList.setItems();
+    cardList.setItems(response);
 })
 
     user.setUserInfo({
@@ -110,7 +124,9 @@ api.getInitialCards().then(response => {
         about: response.about
     });
     profilePhoto.src = response.avatar
-})
+}).catch(err => {
+    console.log(err)
+}) */
 
 
 
@@ -119,7 +135,11 @@ const popupDeleter = new PopupDeleter('.popup_delete', {
     handleDeleteCard: (card) => {
         api.deleteCard(card).then(response => {
             console.log(response)
+            popupDeleter.closePopup();
+            cardDelete.remove()
             
+        }).catch(err => {
+            console.log(err)
         })
     }
 })
@@ -133,7 +153,7 @@ popupDeleter.setEventListeners();
 
 
 //функция создания новой карточки
-function createCard(cardName, imageLink, card, currentUserId) {
+function createCard(cardName, imageLink, card) {
     const newCardItem = new Card('#tamlate-card', cardName, imageLink,
         {
             handleCardClick: (cardName, imageLink) => {
@@ -151,8 +171,12 @@ function createCard(cardName, imageLink, card, currentUserId) {
             },
             handleOpenDelete: (card) => {
                 popupDeleter.openPopup(card);
+                cardDelete = newCardItem;
+
             }
-        }, card, '.cards__like-rating', currentUserId).getCard();
+        }, card, '.cards__like-rating', currentUserId).getCard()
+        
+    
 
     return newCardItem;
 }
@@ -162,15 +186,21 @@ const newCardPopup = new PopupWithForm({
     popupSelector: '.popup_open_add-card',
     submitForm: (inputValues) => {
         api.addNewCard(inputValues).then(response => {
-            newCardPopup.finishSubmit()
-            const section = new Section({
+            /* newCardPopup.finishSubmit() */
+            /* const section = new Section({
                 items: response,
                 render: () => { }
             },
-                '.cards__list')
-            const cardElement = createCard(response.name, response.link, response,currentUserId);
-            section.addItem(cardElement)
+                '.cards__list') */
+            const cardElement = createCard(response.name, response.link, response, currentUserId);
+            cardList.addItem(cardElement)
             newCardPopup.closePopup();
+        })
+        .finally(() => {
+            newCardPopup.finishSubmit()
+        })
+        .catch(err => {
+            console.log(err)
         })
     }
 })
@@ -182,10 +212,15 @@ const avatarPopup = new PopupWithForm({
     popupSelector: '.popup_avatar',
     submitForm: (inputValues) => {
         api.changeAvatar(inputValues).then(response => {
-            avatarPopup.finishSubmit()
+            /* avatarPopup.finishSubmit() */
             user.changeAvatar(response)
+            avatarPopup.closePopup()
+        }).catch(err => {
+            console.log(err)
         })
-        avatarPopup.closePopup()
+        .finally(()=> {
+            avatarPopup.finishSubmit()
+        })
     }
 })
 avatarPopup.setEventListeners();
@@ -196,10 +231,15 @@ const profilePopup = new PopupWithForm({
     popupSelector: '.popup_open_edit-profile',
     submitForm: (inputValues) => {
         api.saveNewUserInfo(inputValues).then(response => {
-            profilePopup.finishSubmit();
+            /* profilePopup.finishSubmit(); */
             user.setUserInfo(response);
+            profilePopup.closePopup();
+        }).catch(err => {
+            console.log(err)
         })
-        profilePopup.closePopup();
+        .finally(() => {
+            profilePopup.finishSubmit();
+        })
     }
 })
 
