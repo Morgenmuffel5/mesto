@@ -15,6 +15,7 @@ export class UserInfo {
         this._userInfoObj ={}
         this._userInfoObj.userName = this._name.textContent;
         this._userInfoObj.infoAbout = this._userInfo.textContent;
+        
 
         return this._userInfoObj
     }
@@ -24,7 +25,7 @@ export class UserInfo {
         this._userInfo.textContent = about;
     }
 
-    changeAvatar({avatar}) {
-        this._userAvatar.src = avatar;
+    changeAvatar(userAvatarSrc) {
+        this._userAvatar.src = userAvatarSrc;
     }
 }

@@ -73,7 +73,7 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
         name: userData.name,
         about: userData.about
     });
-    profilePhoto.src = userData.avatar
+    user.changeAvatar(userData.avatar)
     currentUserId = userData._id;
 
     cardList.setItems(cards)
@@ -162,11 +162,15 @@ function createCard(cardName, imageLink, card) {
             handleAddLike: (currentCard) => {
                 api.addLike(card).then(response => {
                     currentCard.setLikeInfo(response)
+                }).catch(err => {
+                    console.log(err)
                 })
             },
             handleRemoveLike: (currentCard) => {
                 api.removeLike(card).then(response => {
                     currentCard.setLikeInfo(response)
+                }).catch(err => {
+                    console.log(err)
                 })
             },
             handleOpenDelete: (card) => {
@@ -213,7 +217,7 @@ const avatarPopup = new PopupWithForm({
     submitForm: (inputValues) => {
         api.changeAvatar(inputValues).then(response => {
             /* avatarPopup.finishSubmit() */
-            user.changeAvatar(response)
+            user.changeAvatar(response.avatar)
             avatarPopup.closePopup()
         }).catch(err => {
             console.log(err)
